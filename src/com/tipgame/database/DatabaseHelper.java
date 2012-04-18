@@ -4,11 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import com.tipgame.data.GameResult;
-import com.tipgame.data.KickOff;
-import com.tipgame.data.Match;
-import com.tipgame.data.Team;
+import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
+import com.tipgame.data.UserMatchConnection;
 
 public class DatabaseHelper {
 
@@ -18,34 +16,22 @@ public class DatabaseHelper {
 	
 	public Session GetHibernateSession()
 	{
-		if (_SessionFactory == null)
-		{
-			CreateSessionFactory();
-		}
+		CreateSessionFactory();
 		return _SessionFactory.getCurrentSession();
 	}
 	
-	private SessionFactory CreateSessionFactory()
+	private void CreateSessionFactory()
 	{
-		if (_SessionFactory == null){
-			
-			if (_Config == null)
-			{
-				CreateAnnotationConfiguration();
-			}
-			_SessionFactory = _Config.buildSessionFactory();
-		}
-		return _SessionFactory;
+		CreateAnnotationConfiguration();
+		_SessionFactory = _Config.buildSessionFactory();
 	}
 	
 	private void CreateAnnotationConfiguration()
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
 		config.addAnnotatedClass(User.class);
-		config.addAnnotatedClass(KickOff.class);
-		config.addAnnotatedClass(Match.class);
-		config.addAnnotatedClass(Team.class);
-		config.addAnnotatedClass(GameResult.class);
+		config.addAnnotatedClass(UserMatchConnection.class);
+		config.addAnnotatedClass(GameMatch.class);
 		config.configure();
 		
 		_Config = config;

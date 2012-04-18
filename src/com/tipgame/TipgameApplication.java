@@ -1,6 +1,7 @@
 package com.tipgame;
 
 import com.tipgame.ui.MainView;
+import com.tipgame.utils.TipgameUtils;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
 
@@ -13,7 +14,7 @@ public class TipgameApplication extends Application {
 	}
 	
 	private void BuildMainLayout()
-	{		
+	{	
 		Window mainWindow = new Window("Tipgame v1.0");
 		mainWindow.setTheme("runo");
 		setMainWindow(mainWindow);

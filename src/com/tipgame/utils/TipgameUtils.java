@@ -2,11 +2,9 @@ package com.tipgame.utils;
 
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
-import com.tipgame.data.GameResult;
-import com.tipgame.data.KickOff;
-import com.tipgame.data.Match;
-import com.tipgame.data.Team;
+import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
+import com.tipgame.data.UserMatchConnection;
 
 public class TipgameUtils {
 	
@@ -37,10 +35,8 @@ public class TipgameUtils {
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
 		config.addAnnotatedClass(User.class);
-		config.addAnnotatedClass(KickOff.class);
-		config.addAnnotatedClass(Match.class);
-		config.addAnnotatedClass(Team.class);
-		config.addAnnotatedClass(GameResult.class);
+		config.addAnnotatedClass(GameMatch.class);
+		config.addAnnotatedClass(UserMatchConnection.class);
 		config.configure();
 		
 		new SchemaExport(config).create(true, true);

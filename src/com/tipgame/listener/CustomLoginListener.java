@@ -1,13 +1,15 @@
 package com.tipgame.listener;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.tipgame.data.Match;
+import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
+import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.ui.TippView;
 import com.tipgame.utils.TipgameUtils;
@@ -35,27 +37,27 @@ public class CustomLoginListener implements LoginForm.LoginListener
 		_mainTabSheet.addTab(TabTipp, "Tipp");
 	}
 	
-	private List<Match> getMatchesForUserId()
+	private List<UserMatchConnection> getMatchesForUserId()
 	{
-		List<Match> foo = new ArrayList<Match>();
-		Match match = new Match();
-		match.setAwayTeamId(1);
-		match.setHomeTeamId(1);
-		match.setKickOffId(1);
-		match.setResultFinalId(1);
-		match.setResultTippId(1);
-		match.setUserId(1);
-		foo.add(match);
+		List<UserMatchConnection> matches = new ArrayList<UserMatchConnection>();
+		DatabaseHelper databaseHelper = new DatabaseHelper();
+		Session hibernateSession = databaseHelper.GetHibernateSession();
+		hibernateSession.beginTransaction();
+		// fetch ids
 		
-		match = new Match();
-		match.setAwayTeamId(2);
-		match.setHomeTeamId(2);
-		match.setKickOffId(2);
-		match.setResultFinalId(2);
-		match.setResultTippId(2);
-		match.setUserId(1);
-		foo.add(match);
-		return foo;
+		Iterator iter = hibernateSession.createQuery(
+			    "from UserMatchConnection where userId = ?")
+			    .setLong(0, _userId)
+			    .iterate();
+		
+		while ( iter.hasNext() ) 
+		{
+			matches.add((UserMatchConnection) iter.next());
+		}
+		
+		hibernateSession.getTransaction().commit();
+		
+		return matches;
 	}
 	
 	private boolean isLoginCorrect(LoginEvent event)
