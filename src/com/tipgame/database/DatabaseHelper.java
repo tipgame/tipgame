@@ -1,5 +1,6 @@
 package com.tipgame.database;
 
+import org.hibernate.LockMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -14,16 +15,27 @@ public class DatabaseHelper {
 	private AnnotationConfiguration _Config;
 	
 	
-	public Session GetHibernateSession()
+	public Session getHibernateSession()
 	{
 		CreateSessionFactory();
 		return _SessionFactory.getCurrentSession();
 	}
 	
+	public void attachPojoToSession(Session session, Object pojo)
+	{
+		session.lock(pojo, LockMode.NONE);
+	}
+	
 	private void CreateSessionFactory()
 	{
-		CreateAnnotationConfiguration();
-		_SessionFactory = _Config.buildSessionFactory();
+		if(_SessionFactory == null)
+		{
+			if (_Config == null)
+			{
+				CreateAnnotationConfiguration();
+			}
+			_SessionFactory = _Config.buildSessionFactory();
+		}
 	}
 	
 	private void CreateAnnotationConfiguration()

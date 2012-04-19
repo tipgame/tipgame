@@ -22,7 +22,7 @@ public class RegistrationProducer {
 	
 	public Boolean CreateRegistration(User user)
 	{		
-		Session hibernateSession = databaseHelper.GetHibernateSession();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		
 		hibernateSession.beginTransaction();
 		
@@ -37,7 +37,7 @@ public class RegistrationProducer {
 	private void CreateMatchUserConnections(User user)
 	{
 		List<UserMatchConnection> userMatchConnections = new ArrayList<UserMatchConnection>();
-		Session hibernateSession = databaseHelper.GetHibernateSession();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
 		// fetch ids
 		Iterator iter = hibernateSession.createQuery("from GameMatch").iterate();
@@ -47,6 +47,8 @@ public class RegistrationProducer {
 		    UserMatchConnection userMatchConnection = new UserMatchConnection();
 		    userMatchConnection.setGameMatchId(match.getGameMatchId());
 		    userMatchConnection.setUserId(user.getUserID());
+		    userMatchConnection.setResultTippAwayTeam("");
+		    userMatchConnection.setResultTippHomeTeam("");
 		    
 		    userMatchConnections.add(userMatchConnection);
 		}
@@ -58,7 +60,7 @@ public class RegistrationProducer {
 	
 	private void SaveUserMatchConnection(List<UserMatchConnection> userMatchConnections)
 	{
-		Session hibernateSession = databaseHelper.GetHibernateSession();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
 		
 		for (int i = 0; i < userMatchConnections.size(); i++) {

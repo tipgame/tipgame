@@ -9,25 +9,25 @@ import javax.persistence.Id;
 @Entity
 public class GameMatch {
 	
-	private int gameMatchId;
+	private Integer gameMatchId;
 	private String kickOff;
 	private String homeTeamImage;
 	private String homeTeamName;
 	private String awayTeamImage;
 	private String awayTeamName;
-	private int resultFinalHomeTeam;
-	private int resultFinalAwayTeam;
+	private String resultFinalHomeTeam;
+	private String resultFinalAwayTeam;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public int getGameMatchId() {
+	public Integer getGameMatchId() {
 		return gameMatchId;
 	}
-	public void setGameMatchId(int gameMatchId) {
+	public void setGameMatchId(Integer gameMatchId) {
 		this.gameMatchId = gameMatchId;
 	}
 	
-	@Column(nullable=true)
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
 	public String getKickOff() {
 		return kickOff;
 	}
@@ -35,7 +35,7 @@ public class GameMatch {
 		this.kickOff = kickOff;
 	}
 	
-	@Column(nullable=true)
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
 	public String getHomeTeamImage() {
 		return homeTeamImage;
 	}
@@ -43,7 +43,7 @@ public class GameMatch {
 		this.homeTeamImage = homeTeamImage;
 	}
 	
-	@Column(nullable=true)
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
 	public String getHomeTeamName() {
 		return homeTeamName;
 	}
@@ -51,7 +51,7 @@ public class GameMatch {
 		this.homeTeamName = homeTeamName;
 	}
 	
-	@Column(nullable=true)
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
 	public String getAwayTeamImage() {
 		return awayTeamImage;
 	}
@@ -59,7 +59,7 @@ public class GameMatch {
 		this.awayTeamImage = awayTeamImage;
 	}
 	
-	@Column(nullable=true)
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
 	public String getAwayTeamName() {
 		return awayTeamName;
 	}
@@ -67,19 +67,19 @@ public class GameMatch {
 		this.awayTeamName = awayTeamName;
 	}
 	
-	@Column(nullable=true)
-	public int getResultFinalHomeTeam() {
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
+	public String getResultFinalHomeTeam() {
 		return resultFinalHomeTeam;
 	}
-	public void setResultFinalHomeTeam(int resultFinalHomeTeam) {
+	public void setResultFinalHomeTeam(String resultFinalHomeTeam) {
 		this.resultFinalHomeTeam = resultFinalHomeTeam;
 	}
 	
-	@Column(nullable=true)
-	public int getResultFinalAwayTeam() {
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
+	public String getResultFinalAwayTeam() {
 		return resultFinalAwayTeam;
 	}
-	public void setResultFinalAwayTeam(int resultFinalAwayTeam) {
+	public void setResultFinalAwayTeam(String resultFinalAwayTeam) {
 		this.resultFinalAwayTeam = resultFinalAwayTeam;
 	}
 }

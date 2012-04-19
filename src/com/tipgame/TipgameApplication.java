@@ -16,7 +16,7 @@ public class TipgameApplication extends Application {
 	private void BuildMainLayout()
 	{	
 		Window mainWindow = new Window("Tipgame v1.0");
-		mainWindow.setTheme("runo");
+		mainWindow.setTheme("tipgametheme");
 		setMainWindow(mainWindow);
 		MainView mainview = new MainView();		 
 		mainWindow.setContent(mainview);

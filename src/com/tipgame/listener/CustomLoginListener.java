@@ -41,7 +41,7 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	{
 		List<UserMatchConnection> matches = new ArrayList<UserMatchConnection>();
 		DatabaseHelper databaseHelper = new DatabaseHelper();
-		Session hibernateSession = databaseHelper.GetHibernateSession();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
 		// fetch ids
 		
@@ -63,7 +63,7 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	private boolean isLoginCorrect(LoginEvent event)
 	{
 		DatabaseHelper databaseHelper = new DatabaseHelper();
-		Session hibernateSession = databaseHelper.GetHibernateSession();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		
 		hibernateSession.beginTransaction();
 		String sqlQuery = "FROM User WHERE username = :username AND password = :password";
