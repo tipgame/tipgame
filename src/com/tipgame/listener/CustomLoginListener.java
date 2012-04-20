@@ -11,6 +11,7 @@ import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.ui.ReportingView;
 import com.tipgame.ui.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.ui.LoginForm;
@@ -34,7 +35,10 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	private void setHiddenTabs()
 	{
 		TippView TabTipp = new TippView(getMatchesForUserId());
+		ReportingView reporting = new ReportingView();
 		_mainTabSheet.addTab(TabTipp, "Tipp");
+		_mainTabSheet.addTab(reporting, "Auswertung");
+		
 	}
 	
 	private List<UserMatchConnection> getMatchesForUserId()
