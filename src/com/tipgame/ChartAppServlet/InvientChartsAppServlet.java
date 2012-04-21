@@ -19,11 +19,15 @@ public class InvientChartsAppServlet extends ApplicationServlet {
             String themeName, Application application, BufferedWriter page,
             String appUrl, String themeUri, String appId,
             HttpServletRequest request) throws ServletException, IOException {
-        page.write("<script type=\"text/javascript\">\n");
-        page.write("//<![CDATA[\n");
-        page.write("document.write(\"<script language='javascript' src='"+request.getContextPath() + "/VAADIN/scripts/jquery-1.4.4.min.js'><\\/script>\");\n");
-        page.write("document.write(\"<script language='javascript' src='"+request.getContextPath() + "/VAADIN/scripts/highcharts.js'><\\/script>\");\n");
-        page.write("//]]>\n</script>\n");
+		page.write("<script type=\"text/javascript\">\n");
+		page.write("//<![CDATA[\n");
+		page.write("document.write(\"<script language='javascript' src='"
+				+ request.getContextPath()
+				+ "/VAADIN/scripts/jquery-1.7.1.min.js'><\\/script>\");\n");
+		page.write("document.write(\"<script language='javascript' src='"
+				+ request.getContextPath()
+				+ "/VAADIN/scripts/highcharts.js'><\\/script>\");\n");
+		page.write("//]]>\n</script>\n");
         super.writeAjaxPageHtmlVaadinScripts(window, themeName, application,
                 page, appUrl, themeUri, appId, request);
     }

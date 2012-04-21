@@ -167,7 +167,7 @@ public class MainView extends CustomComponent {
 		
 		// tabLoginVerticalLayout
 		tabLoginVerticalLayout = buildTabLoginVerticalLayout();
-		mainTabSheet.addTab(tabLoginVerticalLayout, "Login", null);
+		mainTabSheet.addTab(tabLoginVerticalLayout, "Login", new ThemeResource("resources/icons/login.gif"));
 		
 		return mainTabSheet;
 	}

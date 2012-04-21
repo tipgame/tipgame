@@ -11,20 +11,23 @@ import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.ui.GuideView;
 import com.tipgame.ui.HomeView;
-import com.tipgame.ui.ReportingView;
+import com.tipgame.ui.StatisticView;
 import com.tipgame.ui.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Window;
 
 public class CustomLoginListener implements LoginForm.LoginListener
 {
 	private static final long serialVersionUID = -5685166950324371044L;
 	private TabSheet _mainTabSheet;
 	private int _userId;
+	private User _user;
 
 	public void onLogin(LoginEvent event) {
 		if (isLoginCorrect(event))
@@ -37,12 +40,14 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	private void setHiddenTabs()
 	{
 		TippView TabTipp = new TippView(getMatchesForUserId());
-		ReportingView reporting = new ReportingView();
-		HomeView homeView = new HomeView();
-		
+		StatisticView reporting = new StatisticView();
+		HomeView homeView = new HomeView(_user);
+		GuideView guideView = new GuideView();
+
 		_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
-		_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.png"));
+		_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
 		_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
+		_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.png"));
 		
 	}
 	
@@ -88,6 +93,7 @@ public class CustomLoginListener implements LoginForm.LoginListener
 		user = (User)query.uniqueResult();
 		if(user != null)
 		{
+			_user = user;
 			_userId =  user.getUserID();
 		}
 		hibernateSession.getTransaction().commit();

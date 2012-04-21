@@ -9,7 +9,6 @@
 	</context-param>
 	<servlet>
 		<servlet-name>Tipgame Application</servlet-name>
-		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
 		<servlet-class>com.tipgame.ChartAppServlet.InvientChartsAppServlet</servlet-class>
 		<init-param>
 			<description>
@@ -17,6 +16,12 @@
 			<param-name>application</param-name>
 			<param-value>com.tipgame.TipgameApplication</param-value>
 		</init-param>
+		<init-param>
+  			<description>
+  				Application widgetset</description>
+  			<param-name>widgetset</param-name>
+  			<param-value>com.tipgame.widgetset.TipgameWidgetset</param-value>
+  		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Tipgame Application</servlet-name>
