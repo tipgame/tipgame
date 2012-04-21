@@ -11,9 +11,11 @@ import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.ui.HomeView;
 import com.tipgame.ui.ReportingView;
 import com.tipgame.ui.TippView;
 import com.tipgame.utils.TipgameUtils;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.LoginForm.LoginEvent;
 import com.vaadin.ui.TabSheet;
@@ -36,8 +38,11 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	{
 		TippView TabTipp = new TippView(getMatchesForUserId());
 		ReportingView reporting = new ReportingView();
-		_mainTabSheet.addTab(TabTipp, "Tipp");
-		_mainTabSheet.addTab(reporting, "Auswertung");
+		HomeView homeView = new HomeView();
+		
+		_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
+		_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.png"));
+		_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
 		
 	}
 	

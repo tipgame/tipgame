@@ -10,6 +10,7 @@
 	<servlet>
 		<servlet-name>Tipgame Application</servlet-name>
 		<servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+		<servlet-class>com.tipgame.ChartAppServlet.InvientChartsAppServlet</servlet-class>
 		<init-param>
 			<description>
 			Vaadin application class to start</description>
