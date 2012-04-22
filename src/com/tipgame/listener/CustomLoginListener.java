@@ -32,8 +32,7 @@ public class CustomLoginListener implements LoginForm.LoginListener
 	private User _user;
 
 	public void onLogin(LoginEvent event) {
-		_progressIndicator.setVisible(true);
-		_progressIndicator.setEnabled(true);
+		_progressIndicator.setHeight("50px");
 		_progressIndicator.setValue(new Float(1/10));
 		if (isLoginCorrect(event))
 		{
