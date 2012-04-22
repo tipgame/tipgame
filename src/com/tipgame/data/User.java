@@ -14,6 +14,7 @@ public class User {
 	private String password;
 	private String username;
 	private int rights;
+	private Integer statisticId;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -53,5 +54,10 @@ public class User {
 	public void setRights(int rights) {
 		this.rights = rights;
 	}
-	
+	public Integer getStatisticId() {
+		return statisticId;
+	}
+	public void setStatisticId(Integer statisticId) {
+		this.statisticId = statisticId;
+	}	
 }

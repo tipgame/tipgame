@@ -14,6 +14,7 @@ public class UserMatchConnection {
 	private Integer userId;
 	private String resultTippHomeTeam;
 	private String resultTippAwayTeam;
+	private Boolean alreadyProcessed;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -54,5 +55,13 @@ public class UserMatchConnection {
 	}
 	public void setResultTippAwayTeam(String resultTippAwayTeam) {
 		this.resultTippAwayTeam = resultTippAwayTeam;
+	}
+	
+	@Column(nullable=true)
+	public Boolean getAlreadyProcessed() {
+		return alreadyProcessed;
+	}
+	public void setAlreadyProcessed(Boolean alreadyProcessed) {
+		this.alreadyProcessed = alreadyProcessed;
 	}
 }

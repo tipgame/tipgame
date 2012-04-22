@@ -22,6 +22,7 @@ import com.invient.vaadin.charts.InvientChartsConfig.YAxis;
 import com.invient.vaadin.charts.InvientChartsConfig.YAxisDataLabel;
 import com.invient.vaadin.charts.InvientChartsConfig.AxisBase.AxisTitle;
 import com.invient.vaadin.charts.InvientChartsConfig.Legend.Layout;
+import com.tipgame.database.DatabaseHelper;
 import com.tipgame.ui.MainView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.Application;

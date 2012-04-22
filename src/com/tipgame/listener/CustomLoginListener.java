@@ -7,34 +7,49 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import com.tipgame.data.GameMatch;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.processor.StatisticProcessor;
 import com.tipgame.ui.GuideView;
 import com.tipgame.ui.HomeView;
 import com.tipgame.ui.StatisticView;
 import com.tipgame.ui.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.LoginForm.LoginEvent;
+import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.Window;
 
 public class CustomLoginListener implements LoginForm.LoginListener
 {
 	private static final long serialVersionUID = -5685166950324371044L;
 	private TabSheet _mainTabSheet;
+	private ProgressIndicator _progressIndicator;
 	private int _userId;
 	private User _user;
 
 	public void onLogin(LoginEvent event) {
+		_progressIndicator.setVisible(true);
+		_progressIndicator.setEnabled(true);
+		_progressIndicator.setValue(new Float(1/10));
 		if (isLoginCorrect(event))
 		{
+			_progressIndicator.setValue(new Float(4/10));
+			computeStatistics();
 			_mainTabSheet.removeAllComponents();
 			setHiddenTabs();
-		}		
+			_progressIndicator.setValue(new Float(8/10));
+		}
+		_progressIndicator.setValue(new Float(10/10));
+	}
+	
+	private void computeStatistics()
+	{
+		StatisticProcessor statisticProcessor = new StatisticProcessor(_user);
+		statisticProcessor.computeStatisticForUser();
 	}
 	
 	private void setHiddenTabs()
@@ -47,7 +62,7 @@ public class CustomLoginListener implements LoginForm.LoginListener
 		_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
 		_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
 		_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
-		_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.png"));
+		_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
 		
 	}
 	
@@ -103,6 +118,10 @@ public class CustomLoginListener implements LoginForm.LoginListener
 
 	public void SetMainTabSheet(TabSheet mainTabSheet) {
 		this._mainTabSheet = mainTabSheet;	
+	}
+
+	public void setProgressIndicator(ProgressIndicator _progressIndicator) {
+		this._progressIndicator = _progressIndicator;
 	}
 	
 }

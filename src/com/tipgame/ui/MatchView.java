@@ -145,13 +145,13 @@ public class MatchView extends CustomComponent {
 	
 	private void setResultTippView(String resultTippHomeTeam, String resultTippAwayTeam)
 	{
-		ResultView resultView = new ResultView(resultTippHomeTeam, resultTippAwayTeam, false);
+		ResultView resultView = new ResultView(resultTippHomeTeam, resultTippAwayTeam, true);
 		mainLayout.addComponent(resultView, 3, 0);
 	}
 	
 	private void setResultFinalView(String resultFinalHomeTeam, String resultFinalAwayTeam)
 	{
-		ResultView resultView = new ResultView(resultFinalHomeTeam,	resultFinalAwayTeam, true);
+		ResultView resultView = new ResultView(resultFinalHomeTeam,	resultFinalAwayTeam, false);
 		mainLayout.addComponent(resultView, 2, 0);
 	}
 	
