@@ -66,13 +66,13 @@ public class ResultView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("120px");
+		mainLayout.setWidth("70px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(3);
 		
 		// top-level component properties
-		setWidth("120px");
+		setWidth("70px");
 		setHeight("60px");
 		
 		// TextFieldResultHomeTeam

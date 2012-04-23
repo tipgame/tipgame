@@ -19,7 +19,7 @@ public class DatabaseHelper {
 	public Session getHibernateSession()
 	{
 		CreateSessionFactory();
-		return _SessionFactory.openSession();
+		return _SessionFactory.getCurrentSession();
 	}
 	
 	public void attachPojoToSession(Session session, Object pojo)

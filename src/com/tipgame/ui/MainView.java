@@ -239,6 +239,7 @@ public class MainView extends CustomComponent {
 	private void buildProgressIndicator()
 	{
 		progressIndicator = new ProgressIndicator();
+		progressIndicator.setPollingInterval(500);
 		progressIndicator.setIndeterminate(false);  
 		progressIndicator.setWidth("-1px");
 		progressIndicator.setHeight("0px");

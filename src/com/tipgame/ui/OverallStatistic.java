@@ -114,7 +114,6 @@ public class OverallStatistic extends CustomComponent {
 		}
 		
 		session.getTransaction().commit();
-		session.close();
 	}
 	
 	private String getNameToUserId(int userId)
@@ -134,7 +133,6 @@ public class OverallStatistic extends CustomComponent {
 		}
 		
 		session.getTransaction().commit();
-		session.close();
 		
 		return name;
 	}

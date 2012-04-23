@@ -109,7 +109,6 @@ public class HomeView extends CustomComponent {
 		}
 		
 		session.getTransaction().commit();
-		session.close();
 	}
 
 	private String getNameToUserId(int userId)
@@ -125,9 +124,7 @@ public class HomeView extends CustomComponent {
 			User user = iter.next();
 			name = user.getChristianname()+" "+user.getName();
 		}
-		session.getTransaction().commit();
-		session.close();
-		
+		//session.getTransaction().commit();		
 		return name;
 	}
 	

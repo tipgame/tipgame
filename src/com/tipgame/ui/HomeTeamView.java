@@ -91,13 +91,13 @@ public class HomeTeamView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("140px");
+		mainLayout.setWidth("200px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(2);
 		
 		// top-level component properties
-		setWidth("140px");
+		setWidth("200px");
 		setHeight("60px");
 		
 		// verticalLayout_1
@@ -122,7 +122,8 @@ public class HomeTeamView extends CustomComponent {
 		LabelHomeTeamName.setImmediate(false);
 		LabelHomeTeamName.setWidth("-1px");
 		LabelHomeTeamName.setHeight("-1px");
-		LabelHomeTeamName.setValue("Heimteam");
+		LabelHomeTeamName.setValue("");
+		LabelHomeTeamName.setStyleName("newLabelFontSize");
 		verticalLayout_1.addComponent(LabelHomeTeamName);
 		
 		return verticalLayout_1;

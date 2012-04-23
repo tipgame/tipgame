@@ -84,13 +84,13 @@ public class AwayTeamView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("140px");
+		mainLayout.setWidth("220px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(2);
 		
 		// top-level component properties
-		setWidth("140px");
+		setWidth("220px");
 		setHeight("60px");
 		
 		// verticalLayout_1

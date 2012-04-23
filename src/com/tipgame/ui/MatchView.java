@@ -165,10 +165,6 @@ public class MatchView extends CustomComponent {
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(6);
 		
-		// top-level component properties
-		setWidth("100.0%");
-		setHeight("-1px");
-		
 		// BtnSubmitTipp
 		BtnSubmitTipp = new Button("",this,"onSubmitTippButtonClick");
 		BtnSubmitTipp.setCaption("Tipp abgeben");

@@ -53,7 +53,6 @@ public class StatisticProcessor {
 		}
 		
 		session.getTransaction().commit();
-		session.close();
 		
 		if(somethingToDo)
 		{
