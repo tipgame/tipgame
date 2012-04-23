@@ -11,12 +11,13 @@ import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.processor.StatisticProcessor;
-import com.tipgame.ui.GuideView;
-import com.tipgame.ui.HomeView;
-import com.tipgame.ui.StatisticView;
-import com.tipgame.ui.TippView;
+import com.tipgame.ui.Guide.GuideView;
+import com.tipgame.ui.Home.HomeView;
+import com.tipgame.ui.Statistics.StatisticView;
+import com.tipgame.ui.Tipp.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.LoginForm.LoginEvent;
@@ -40,15 +41,18 @@ public class LoginThread extends Thread {
     public void run () {
     	_progressIndicator.setHeight("50px");
 		_progressIndicator.setValue(new Float(0.1));
+		_progressIndicator.setCaption("Einloggen ...");
 		if (isLoginCorrect(_event))
 		{
-			_progressIndicator.setValue(new Float(0.5));
+			_progressIndicator.setValue(new Float(0.3));
+			_progressIndicator.setCaption("Berechne Statistiken ...");
 			computeStatistics();
-			//_mainTabSheet.removeAllComponents();
+			_progressIndicator.setValue(new Float(0.6));
+			_progressIndicator.setCaption("Erstelle Benutzeroberfläche ...");
 			setHiddenTabs();
-			_progressIndicator.setValue(new Float(0.8));
 		}
 		_progressIndicator.setValue(new Float(1));
+		_mainTabSheet.removeTab(_mainTabSheet.getTab(0));
     }
     
     private void computeStatistics()

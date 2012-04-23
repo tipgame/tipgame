@@ -16,11 +16,6 @@ public class CustomLoginListener implements LoginForm.LoginListener
 		final LoginThread thread = new LoginThread(_progressIndicator, event, _mainTabSheet);
 		thread.run();
 	}
-	
-	
-	
-	
-
 
 	public void SetMainTabSheet(TabSheet mainTabSheet) {
 		this._mainTabSheet = mainTabSheet;	

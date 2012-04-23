@@ -52,14 +52,14 @@ public class StatisticProcessor {
 			processedUserMatchConnections.add(userMatchConnection);
 		}
 		
-		session.getTransaction().commit();
-		
 		if(somethingToDo)
 		{
 			Integer rank = computeRank(points);
 			saveAll(points, rank);
 			updateUserMatchConnections();
 		}
+		
+		session.getTransaction().commit();
 	}
 	
 	private void updateUserMatchConnections()
@@ -71,9 +71,6 @@ public class StatisticProcessor {
 			userMatchConnection.setAlreadyProcessed(true);
 			session.update(userMatchConnection);
 		}
-		
-		session.getTransaction().commit();
-		session.close();
 	}
 	
 	private void saveAll(Integer points, Integer rank)
@@ -94,28 +91,28 @@ public class StatisticProcessor {
 			
 			session.update(statistic);			
 		}
-		
-		session.getTransaction().commit();
 	}
 	
 	private Integer computeRank(Integer points)
 	{
 		Integer pointsSum = 0;
-		Integer rank = 0;
+		Integer rank = 1;
 		
 		pointsSum = points + getPointsFromUserStatistic();
 		
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
-		
-		String sqlQuery = "SELECT COUNT(*) AS rank FROM Statistic WHERE points < "+String.valueOf(pointsSum);
-		Query query = session.createQuery(sqlQuery);
-		List<Long> list = query.list();
-		for (int i = 0; i < list.size(); i++) {
-			rank = list.get(i).intValue();
+
+		String sqlQuery = "FROM Statistic order by points asc";
+		Iterator<Statistic> iter = session.createQuery(sqlQuery).iterate();
+		while(iter.hasNext())
+		{
+			Statistic statistic = iter.next();
+			if (statistic.getPoints() <= pointsSum)
+				rank++;
+			else
+				break;				
 		}
-		
-		session.getTransaction().commit();
 		return rank;
 	}
 	
@@ -132,20 +129,19 @@ public class StatisticProcessor {
 			pointsFromUserStatistic = list.get(i);
 		}
 		
-		session.getTransaction().commit();
-		session.close();
 		return pointsFromUserStatistic;
 	}
 	
 	private Integer getStatisticId()
 	{
 		Integer statisticId = null;
+		
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, user);
-		statisticId = user.getStatisticId();
-		session.getTransaction().commit();
 		
+		statisticId = user.getStatisticId();
+	
 		return statisticId;
 	}
 	
@@ -192,7 +188,7 @@ public class StatisticProcessor {
 			gameMatchs.put(match.getGameMatchId(), match);
 		}
 		
-		session.getTransaction().commit();
+		//session.getTransaction().commit();
 		
 		return matchIDs;
 	}
