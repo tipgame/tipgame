@@ -1,5 +1,6 @@
 package com.tipgame.ui.Registration;
 
+import com.tipgame.CustomExceptions.CustomRegistrationFieldsException;
 import com.tipgame.data.User;
 import com.tipgame.processor.RegistrationProcessor;
 import com.tipgame.utils.TipgameUtils;
@@ -119,6 +120,9 @@ public class RegistrationView extends CustomComponent {
 	}
 
 	public void createRegistrationButtonClick(Button.ClickEvent event) {
+		progressIndicator.setHeight("50px");
+		progressIndicator.setValue(new Float(0.2));
+		progressIndicator.setCaption("Erzeuge Benutzer ...");
 		RegistrationProcessor registrationProducer = new RegistrationProcessor(progressIndicator);
 		try
 		{
@@ -127,18 +131,34 @@ public class RegistrationView extends CustomComponent {
 		}
 		catch (Exception e)
 		{
-			
+			progressIndicator.setHeight("0px");
+			progressIndicator.setCaption("");
+			labelError.setValue(e.getMessage());
 		}
     }
 	
-	private User CreateUser()
+	private void AreFieldsFilled() throws Exception
 	{
+		if(((String)TextFieldChristianname.getValue() == "") || 
+				((String) TextFieldName.getValue() == "") || 
+				((String) TextFieldUsername.getValue() == "") || 
+				((String) PasswordField.getValue() == "")|| 
+				((String)TextFieldEmail.getValue() == ""))
+		{
+			throw new CustomRegistrationFieldsException("Bitte füllen Sie alle Felder aus!");
+		}
+	}
+	
+	private User CreateUser() throws Exception
+	{
+		AreFieldsFilled();
 		User user = new User();
 		try {
 			user.setChristianname((String)TextFieldChristianname.getValue());
 			user.setName((String) TextFieldName.getValue());
 			user.setUsername((String) TextFieldUsername.getValue());
 			user.setPassword(TipgameUtils.byteArrayToHexString(TipgameUtils.computeHash((String) PasswordField.getValue())));
+			user.setEmail((String)TextFieldEmail.getValue());
 			user.setRights(1);
 		} catch (Exception e) {
 			e.printStackTrace();

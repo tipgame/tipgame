@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import com.tipgame.CustomExceptions.CustomLoginException;
+import com.tipgame.data.AllowedUser;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
@@ -28,16 +30,17 @@ public class RegistrationThread extends Thread {
 	
 	public void run()
 	{
-		progressIndicator.setHeight("50px");
-		progressIndicator.setValue(new Float(0.2));
-		progressIndicator.setCaption("Erzeuge Benutzer ...");
-
 		Session hibernateSession = databaseHelper.getHibernateSession();		
 		hibernateSession.beginTransaction();
-		if (isUserAllowedToRegistrate(user))
-			hibernateSession.save(user);
-		else
-			throw new RuntimeException("");
+		try
+		{
+			if (isUserAllowedToRegistrate(user))
+				hibernateSession.save(user);
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e.getMessage());
+		}
 		
 		hibernateSession.getTransaction().commit();
 		
@@ -49,9 +52,18 @@ public class RegistrationThread extends Thread {
 		CreateNewStatisticForUser(user);
 	}
 	
-	private Boolean isUserAllowedToRegistrate(User user)
+	private Boolean isUserAllowedToRegistrate(User user) throws Exception
 	{
-		return false;
+		Session hibernateSession = databaseHelper.getHibernateSession();
+		hibernateSession.beginTransaction();
+		Boolean foundUser = false;
+		List<String> l = hibernateSession.createSQLQuery("select email from alloweduser").list();
+		
+		if (!l.contains(user.getEmail()))
+		{
+			throw new CustomLoginException("Sie besitzen keine Berechtigung sich anzumelden.");
+		}
+		return true;
 	}
 	
 	private void CreateMatchUserConnections(User user)

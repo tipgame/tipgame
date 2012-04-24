@@ -14,7 +14,7 @@ public class RegistrationProcessor {
 	}
 	
 	public void CreateRegistration(User user) throws Exception
-	{		
+	{				
 		RegistrationThread registrationThread = new RegistrationThread(progressIndicator, user);
 		registrationThread.run();
 	}

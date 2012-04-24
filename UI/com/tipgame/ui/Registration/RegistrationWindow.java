@@ -9,8 +9,8 @@ public class RegistrationWindow extends Window
 	
 	public RegistrationWindow(String caption, ComponentContainer view) {
         setModal(true);
-        setWidth("50%");
-        setHeight("100%");
+        setWidth("30%");
+        setHeight("50%");
         center();
         
         setCaption(caption);
