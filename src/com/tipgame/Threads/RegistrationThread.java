@@ -7,27 +7,23 @@ import java.util.List;
 import org.hibernate.Session;
 
 import com.tipgame.CustomExceptions.CustomLoginException;
-import com.tipgame.data.AllowedUser;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
-import com.vaadin.ui.ProgressIndicator;
 
 public class RegistrationThread extends Thread {
 	
 	private DatabaseHelper databaseHelper;
-	private ProgressIndicator progressIndicator;
 	private User user;
 	
-	public RegistrationThread(ProgressIndicator progressIndicator, User user)
+	public RegistrationThread(User user)
 	{
 		this.databaseHelper = new DatabaseHelper();
-		this.progressIndicator = progressIndicator;
 		this.user = user;
 	}
-	
+	@Override
 	public void run()
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();		
@@ -44,11 +40,7 @@ public class RegistrationThread extends Thread {
 		
 		hibernateSession.getTransaction().commit();
 		
-		progressIndicator.setValue(new Float(0.4));
-		progressIndicator.setCaption("Erzeuge Tipps ...");
 		CreateMatchUserConnections(user);
-		progressIndicator.setValue(new Float(0.8));
-		progressIndicator.setCaption("Erzeuge Statistiken ...");
 		CreateNewStatisticForUser(user);
 	}
 	

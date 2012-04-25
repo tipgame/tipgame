@@ -188,7 +188,7 @@ public class MainView extends CustomComponent {
 		tabLoginVerticalLayout.setMargin(true);
 		
 		// embedded_2
-		emLogoImage = new Embedded();
+/*		emLogoImage = new Embedded();
 		emLogoImage.setImmediate(false);
 		emLogoImage.setWidth("315px");
 		emLogoImage.setHeight("140px");
@@ -198,7 +198,7 @@ public class MainView extends CustomComponent {
 		emLogoImage.setMimeType("image/png");
 		tabLoginVerticalLayout.addComponent(emLogoImage);
 		tabLoginVerticalLayout.setComponentAlignment(emLogoImage, new Alignment(
-				48));
+				48));*/
 		
 		// gridLayoutLogin
 		gridLayoutLogin = buildGridLayoutLogin();

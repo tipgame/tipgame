@@ -7,17 +7,16 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.tipgame.Administration.AdministrationView;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
-import com.tipgame.processor.StatisticProcessor;
 import com.tipgame.ui.Guide.GuideView;
 import com.tipgame.ui.Home.HomeView;
 import com.tipgame.ui.Statistics.StatisticView;
 import com.tipgame.ui.Tipp.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.LoginForm.LoginEvent;
@@ -37,7 +36,7 @@ public class LoginThread extends Thread {
 		_event = event;
 		_mainTabSheet = tabsheet;
 	}
-	
+	@Override
     public void run () {
     	_progressIndicator.setHeight("50px");
 		_progressIndicator.setValue(new Float(0.1));
@@ -50,29 +49,33 @@ public class LoginThread extends Thread {
 			_progressIndicator.setValue(new Float(0.6));
 			_progressIndicator.setCaption("Erstelle Benutzeroberfläche ...");
 			setHiddenTabs();
-		}
-		_progressIndicator.setValue(new Float(1));
-		_mainTabSheet.removeTab(_mainTabSheet.getTab(0));
+			_progressIndicator.setValue(new Float(1));
+			_mainTabSheet.removeTab(_mainTabSheet.getTab(0));
+		}		
     }
     
     private void computeStatistics()
 	{
-		StatisticProcessor statisticProcessor = new StatisticProcessor(_user);
-		statisticProcessor.computeStatisticForUser();
+		StatisticThread statisticProcessor = new StatisticThread(_user);
+		statisticProcessor.run();
 	}
     
     private void setHiddenTabs()
-	{
-		TippView TabTipp = new TippView(getMatchesForUserId());
-		StatisticView reporting = new StatisticView();
+	{		
 		HomeView homeView = new HomeView(_user);
+		TippView TabTipp = new TippView(getMatchesForUserId(), _user);
+		StatisticView reporting = new StatisticView();
 		GuideView guideView = new GuideView();
 
 		_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
 		_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
 		_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
 		_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
-		
+		if (_user.getRights() == 65335)
+		{
+			AdministrationView adminView = new AdministrationView();
+			_mainTabSheet.addTab(adminView, "Administration", new ThemeResource("resources/icons/admin.png"));
+		}
 	}
 	
 	private List<UserMatchConnection> getMatchesForUserId()
