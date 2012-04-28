@@ -125,7 +125,8 @@ public class RegistrationView extends CustomComponent {
 		}
 		catch (Exception e)
 		{
-			labelError.setValue(e.getMessage());
+			e.printStackTrace();
+			labelError.setValue("Es gab einen Fehler bei der Registration.");
 		}
     }
 	
@@ -152,6 +153,8 @@ public class RegistrationView extends CustomComponent {
 			user.setPassword(TipgameUtils.byteArrayToHexString(TipgameUtils.computeHash((String) PasswordField.getValue())));
 			user.setEmail((String)TextFieldEmail.getValue());
 			user.setRights(1);
+			user.setGermanytipp("");
+			user.setWinnertipp("");
 			user.setStatisticId(0);
 		} catch (Exception e) {
 			e.printStackTrace();

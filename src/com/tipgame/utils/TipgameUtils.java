@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
@@ -64,5 +65,22 @@ public class TipgameUtils {
 			e.printStackTrace();
 		}		
 		return result;
+	}
+	
+	public static String join(List<String> list, String delim) {
+
+	    StringBuilder sb = new StringBuilder();
+
+	    String loopDelim = "";
+
+	    for(String s : list) {
+
+	        sb.append(loopDelim);
+	        sb.append(s);            
+
+	        loopDelim = delim;
+	    }
+
+	    return sb.toString();
 	}
 }

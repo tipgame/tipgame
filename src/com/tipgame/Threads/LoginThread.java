@@ -44,6 +44,7 @@ public class LoginThread extends Thread {
     public void run (){
 		try
 		{
+			_errorLabel.setValue("");
 	    	_progressIndicator.setHeight("50px");
 			_progressIndicator.setValue(new Float(0.1));
 			_progressIndicator.setCaption("Einloggen ...");
@@ -98,6 +99,7 @@ public class LoginThread extends Thread {
     	}
     	catch (Exception e)
     	{
+    		e.printStackTrace();
     		throw new Exception("Beim erstellen der Benutzeroberfläche kam es zu einem Fehler.");
     	}
 	}

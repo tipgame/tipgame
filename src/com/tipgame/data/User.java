@@ -16,6 +16,8 @@ public class User {
 	private int rights;
 	private Integer statisticId;
 	private String email;
+	private String winnertipp;
+	private String germanytipp;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -66,5 +68,17 @@ public class User {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getWinnertipp() {
+		return winnertipp;
+	}
+	public void setWinnertipp(String winnertipp) {
+		this.winnertipp = winnertipp;
+	}
+	public String getGermanytipp() {
+		return germanytipp;
+	}
+	public void setGermanytipp(String germanytipp) {
+		this.germanytipp = germanytipp;
 	}	
 }

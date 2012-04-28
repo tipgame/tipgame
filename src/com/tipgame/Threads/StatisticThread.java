@@ -101,7 +101,7 @@ public class StatisticThread extends Thread{
 	private Integer computeRank(Integer points)
 	{
 		Integer pointsSum = 0;
-		Integer rank = 1;
+		Integer rank = getNumberOfUsers();
 		
 		pointsSum = points + getPointsFromUserStatistic();
 		
@@ -114,11 +114,33 @@ public class StatisticThread extends Thread{
 		{
 			Statistic statistic = iter.next();
 			if (statistic.getPoints() <= pointsSum)
-				rank++;
+				rank--;
 			else
 				break;				
 		}
 		return rank;
+	}
+	
+	private Integer getNumberOfUsers()
+	{
+		Integer numberOfUsers = 0;
+		Session session = databaseHelper.getHibernateSession();
+		try {
+			session.beginTransaction();
+	
+			String sqlQuery = "FROM User";
+			Iterator<Statistic> iter = session.createQuery(sqlQuery).iterate();
+			while(iter.hasNext())
+			{
+				iter.next();
+				numberOfUsers++;
+				
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
+		return numberOfUsers;
 	}
 	
 	private Integer getPointsFromUserStatistic()
