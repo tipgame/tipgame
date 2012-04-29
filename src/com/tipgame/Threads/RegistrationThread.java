@@ -53,7 +53,7 @@ public class RegistrationThread extends Thread {
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
 		Boolean foundUser = false;
-		List<String> l = hibernateSession.createSQLQuery("select email from alloweduser").list();
+		List<String> l = hibernateSession.createSQLQuery("select email from AllowedUser").list();
 		
 		if (!l.contains(user.getEmail()))
 		{

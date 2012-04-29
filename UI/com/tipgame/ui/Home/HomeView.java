@@ -242,6 +242,7 @@ public class HomeView extends CustomComponent {
 		tableTopTen.addContainerProperty("Rang", String.class,  null);
 		tableTopTen.addContainerProperty("Name",  String.class,  null);
 		tableTopTen.addContainerProperty("Punkte", String.class, null);
+		tableTopTen.sort(new Object[] {"Rang"},new boolean[] {true});
 		homeViewGridLayout.addComponent(tableTopTen, 0, 2);
 		
 		return homeViewGridLayout;

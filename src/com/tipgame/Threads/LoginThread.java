@@ -12,12 +12,14 @@ import com.tipgame.CustomExceptions.CustomLoginException;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.listener.TabChangeListener;
 import com.tipgame.ui.Guide.GuideView;
 import com.tipgame.ui.Home.HomeView;
 import com.tipgame.ui.Statistics.StatisticView;
 import com.tipgame.ui.Tipp.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
+import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
@@ -96,6 +98,10 @@ public class LoginThread extends Thread {
 				_mainTabSheet.addTab(adminView, "Administration", new ThemeResource("resources/icons/admin.png"));
 			}
 			_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
+			AbsoluteLayout absLayout = new AbsoluteLayout();
+			absLayout.setCaption("Logout");
+			_mainTabSheet.addTab(absLayout);
+			_mainTabSheet.addListener(new TabChangeListener());
     	}
     	catch (Exception e)
     	{

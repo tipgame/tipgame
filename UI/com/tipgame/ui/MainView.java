@@ -155,7 +155,7 @@ public class MainView extends CustomComponent {
 		mainVerticalLayout.setWidth("100.0%");
 		mainVerticalLayout.setHeight("100.0%");
 		mainVerticalLayout.setMargin(false);
-		
+
 		// mainTabSheet
 		mainTabSheet = buildMainTabSheet();
 		mainVerticalLayout.addComponent(mainTabSheet);
@@ -271,7 +271,7 @@ public class MainView extends CustomComponent {
 		// buttonRegistration
 		buttonRegistration = new Button("",this,"onRegistrationButtonClick");
 		buttonRegistration.setCaption("Registrierung");
-		buttonRegistration.setStyle(Reindeer.BUTTON_LINK);
+		buttonRegistration.setStyleName(Reindeer.BUTTON_LINK);
 		buttonRegistration.setImmediate(true);
 		buttonRegistration.setWidth("-1px");
 		buttonRegistration.setHeight("-1px");
