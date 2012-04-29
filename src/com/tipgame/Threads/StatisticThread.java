@@ -37,34 +37,39 @@ public class StatisticThread extends Thread{
 		Integer points = 0;
 		String matchIDs = getGameMatchIdForFinishedGames();
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
-		databaseHelper.attachPojoToSession(session, user);
-		
-		int userId = user.getUserID();
-		if (matchIDs != "")
-		{
-			Iterator<UserMatchConnection> iter = session.createQuery(
-				    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
-					" resultTippAwayTeam != '' and alreadyProcessed = 0 and gameMatchId in ("+matchIDs+")")
-				    .setLong(0, userId)
-				    .iterate();
-			while(iter.hasNext())
+		try {
+			session.beginTransaction();
+			databaseHelper.attachPojoToSession(session, user);
+			
+			int userId = user.getUserID();
+			if (matchIDs != "")
 			{
-				somethingToDo = true;
-				UserMatchConnection userMatchConnection = iter.next();
-				points = points+computePoints(userMatchConnection);
-				processedUserMatchConnections.add(userMatchConnection);
+				Iterator<UserMatchConnection> iter = session.createQuery(
+					    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
+						" resultTippAwayTeam != '' and alreadyProcessed = 0 and gameMatchId in ("+matchIDs+")")
+					    .setLong(0, userId)
+					    .iterate();
+				while(iter.hasNext())
+				{
+					somethingToDo = true;
+					UserMatchConnection userMatchConnection = iter.next();
+					points = points+computePoints(userMatchConnection);
+					processedUserMatchConnections.add(userMatchConnection);
+				}
 			}
+			
+			if(somethingToDo)
+			{
+				Integer rank = computeRank(points);
+				saveAll(points, rank);
+				updateUserMatchConnections();
+			}
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+			e.printStackTrace();
 		}
-		
-		if(somethingToDo)
-		{
-			Integer rank = computeRank(points);
-			saveAll(points, rank);
-			updateUserMatchConnections();
-		}
-		
-		session.getTransaction().commit();
 	}
 	
 	private void updateUserMatchConnections()
@@ -74,7 +79,7 @@ public class StatisticThread extends Thread{
 		
 		for (UserMatchConnection userMatchConnection : processedUserMatchConnections) {
 			userMatchConnection.setAlreadyProcessed(true);
-			session.update(userMatchConnection);
+			session.saveOrUpdate(userMatchConnection);
 		}
 	}
 	
@@ -84,6 +89,7 @@ public class StatisticThread extends Thread{
 		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, user);
 		int userId = user.getUserID();
+		Integer pointsSum = points + getPointsFromUserStatistic();
 		Iterator<Statistic> iter = session.createQuery(
 			    "from Statistic where userId = ?")
 			    .setLong(0, userId)
@@ -91,19 +97,16 @@ public class StatisticThread extends Thread{
 		while(iter.hasNext())
 		{
 			Statistic statistic = iter.next();
-			statistic.setPoints(points);
+			statistic.setPoints(pointsSum);
 			statistic.setRank(rank);
 			
-			session.update(statistic);			
+			session.saveOrUpdate(statistic);			
 		}
 	}
 	
 	private Integer computeRank(Integer points)
 	{
-		Integer pointsSum = 0;
 		Integer rank = getNumberOfUsers();
-		
-		pointsSum = points + getPointsFromUserStatistic();
 		
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
@@ -113,10 +116,12 @@ public class StatisticThread extends Thread{
 		while(iter.hasNext())
 		{
 			Statistic statistic = iter.next();
-			if (statistic.getPoints() <= pointsSum)
-				rank--;
-			else
-				break;				
+			if(statistic.getUserId() != user.getUserID()) {
+				if ((statistic.getPoints() < points) && (rank > 1))
+					rank--;
+				else
+					break;	
+			}
 		}
 		return rank;
 	}
