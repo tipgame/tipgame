@@ -129,7 +129,7 @@ public class HomeView extends CustomComponent {
 		try {
 			session.beginTransaction();
 			Iterator<Statistic> iter = session.createQuery(
-				    "from Statistic where userid in ("+userIDs+") order by rank desc")
+				    "from Statistic where userid in ("+userIDs+") and rank > 0 order by rank asc")
 				    .iterate();
 			while(iter.hasNext())
 			{
@@ -155,7 +155,7 @@ public class HomeView extends CustomComponent {
 		try {
 			session.beginTransaction();
 			Iterator<User> iter = session.createQuery(
-				    "from User where rights = 1")
+				    "from User")
 				    .iterate();
 			
 			while(iter.hasNext()) {
@@ -242,7 +242,6 @@ public class HomeView extends CustomComponent {
 		tableTopTen.addContainerProperty("Rang", String.class,  null);
 		tableTopTen.addContainerProperty("Name",  String.class,  null);
 		tableTopTen.addContainerProperty("Punkte", String.class, null);
-		tableTopTen.sort(new Object[] {"Rang"},new boolean[] {true});
 		homeViewGridLayout.addComponent(tableTopTen, 0, 2);
 		
 		return homeViewGridLayout;

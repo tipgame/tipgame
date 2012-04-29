@@ -100,7 +100,7 @@ public class LoginThread extends Thread {
 			_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
 			AbsoluteLayout absLayout = new AbsoluteLayout();
 			absLayout.setCaption("Logout");
-			_mainTabSheet.addTab(absLayout);
+			_mainTabSheet.addTab(absLayout, "Logout", new ThemeResource("resources/icons/logout.png"));
 			_mainTabSheet.addListener(new TabChangeListener());
     	}
     	catch (Exception e)

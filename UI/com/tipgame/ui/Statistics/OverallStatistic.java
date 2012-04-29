@@ -18,9 +18,12 @@ import com.invient.vaadin.charts.InvientCharts.Series;
 import com.invient.vaadin.charts.InvientCharts.SeriesType;
 import com.invient.vaadin.charts.InvientCharts.XYSeries;
 import com.invient.vaadin.charts.InvientChartsConfig;
+import com.invient.vaadin.charts.InvientChartsConfig.AxisBase.AxisTitle;
 import com.invient.vaadin.charts.InvientChartsConfig.CategoryAxis;
+import com.invient.vaadin.charts.InvientChartsConfig.NumberYAxis;
 import com.invient.vaadin.charts.InvientChartsConfig.Tooltip;
 import com.invient.vaadin.charts.InvientChartsConfig.XAxis;
+import com.invient.vaadin.charts.InvientChartsConfig.YAxis;
 
 public class OverallStatistic extends CustomComponent {
 
@@ -80,15 +83,15 @@ public class OverallStatistic extends CustomComponent {
 		InvientChartsConfig chartConfig = new InvientChartsConfig();
         chartConfig.getGeneralChartConfig().setType(SeriesType.BAR);
 
-        //chartConfig.getTitle().setText("Column chart with negative values");
+        chartConfig.getTitle().setText("Statistik");
         
         chartConfig.setXAxes(setXAxis());
 
-/*        Tooltip tooltip = new Tooltip();
+        Tooltip tooltip = new Tooltip();
         tooltip.setFormatterJsFunc("function() {"
                 + " return '' + this.series.name +': '+ this.y +''; " + "}");
         chartConfig.setTooltip(tooltip);
-        chartConfig.getCredit().setEnabled(false);*/
+        chartConfig.getCredit().setEnabled(false);
 
         InvientCharts invChart = new InvientCharts(chartConfig);
         setSeriesData(invChart);
@@ -116,6 +119,37 @@ public class OverallStatistic extends CustomComponent {
 		session.getTransaction().commit();
 	}
 	
+	private LinkedHashSet<XAxis> setXAxis()
+	{
+		CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setCategories(Arrays.asList("1", "5", "10", "15", "20", "25", "30"));
+        xAxis.setTitle(new AxisTitle("Spieler"));
+        LinkedHashSet<XAxis> xAxesSet = new LinkedHashSet<InvientChartsConfig.XAxis>();
+        xAxesSet.add(xAxis);
+        
+        return xAxesSet;
+	}
+
+	private LinkedHashSet<NumberYAxis> setYAxis()
+	{
+		NumberYAxis yAxis = new NumberYAxis();
+		yAxis.setMin(0.0);
+		yAxis.setMax(200.0);
+		yAxis.setTitle(new AxisTitle("Punkte"));
+        LinkedHashSet<NumberYAxis> yAxesSet = new LinkedHashSet<NumberYAxis>();
+        yAxesSet.add(yAxis);
+        
+        return yAxesSet;
+	}
+	private static LinkedHashSet<DecimalPoint> getPoints(Series series,
+			double... values) {
+		LinkedHashSet<DecimalPoint> points = new LinkedHashSet<DecimalPoint>();
+		for (double value : values) {
+			points.add(new DecimalPoint(series, value));
+		}
+		return points;
+	}
+	
 	private String getNameToUserId(int userId)
 	{
 		String name = "";
@@ -135,25 +169,5 @@ public class OverallStatistic extends CustomComponent {
 		session.getTransaction().commit();
 		
 		return name;
-	}
-	
-	private LinkedHashSet<XAxis> setXAxis()
-	{
-		CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setCategories(Arrays.asList("1", "10", "20", "30", "40", "50", "60", "70", "80",
-        		"90", "100", "110", "120", "130", "140", "150"));
-        LinkedHashSet<XAxis> xAxesSet = new LinkedHashSet<InvientChartsConfig.XAxis>();
-        xAxesSet.add(xAxis);
-        
-        return xAxesSet;
-	}
-
-	private static LinkedHashSet<DecimalPoint> getPoints(Series series,
-			double... values) {
-		LinkedHashSet<DecimalPoint> points = new LinkedHashSet<DecimalPoint>();
-		for (double value : values) {
-			points.add(new DecimalPoint(series, value));
-		}
-		return points;
 	}
 }
