@@ -1,6 +1,7 @@
 package com.tipgame.Threads;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.tipgame.data.FinalResults;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
@@ -61,6 +63,7 @@ public class StatisticThread extends Thread{
 			if(somethingToDo)
 			{
 				Integer rank = computeRank(points);
+				points += CalculateFullPointsAfterLastMatch();
 				saveAll(points, rank);
 				updateUserMatchConnections();
 			}
@@ -221,9 +224,40 @@ public class StatisticThread extends Thread{
 			gameMatchs.put(match.getGameMatchId(), match);
 		}
 		
-		//session.getTransaction().commit();
-		
 		return matchIDs;
+	}
+	
+	private Integer CalculateFullPointsAfterLastMatch()
+	{
+		Integer points = 0;
+		Calendar cal = Calendar.getInstance();
+		Long today = cal.getTimeInMillis();
+		cal.set(2012, 7, 2);
+		Long endOfTournament = cal.getTimeInMillis();
+		
+		if(today > endOfTournament) {
+			Session session = databaseHelper.getHibernateSession();
+			session.beginTransaction();
+			
+			databaseHelper.attachPojoToSession(session, user);
+			String winner = user.getWinnertipp();
+			String tippGermany = user.getGermanytipp();
+			
+			Iterator<FinalResults> iter = session.createQuery(
+				    "from FinalResults")
+				    .iterate();
+			while(iter.hasNext()) {
+				FinalResults finalResult = iter.next();
+				if (finalResult.getResultGermany().equalsIgnoreCase(tippGermany)){
+					points = points + 10;
+				}
+				if (finalResult.getWinner().equalsIgnoreCase(winner)) {
+					points = points + 10;
+				}
+			}		
+		}
+	
+		return points;		
 	}
 
 }

@@ -114,8 +114,7 @@ public class AdministrationView extends CustomComponent {
 		// common part: create layout
 		mainPanel = new Panel();
 		mainPanel.setImmediate(false);
-		mainPanel.setWidth("100.0%");
-		mainPanel.setHeight("100.0%");
+		mainPanel.setSizeFull();
 		mainPanel.setScrollable(true);
 		
 		// verticalLayoutOnPanel
@@ -124,7 +123,7 @@ public class AdministrationView extends CustomComponent {
 		verticalLayoutOnPanel.setWidth("100.0%");
 		verticalLayoutOnPanel.setHeight("100.0%");
 		verticalLayoutOnPanel.setMargin(false);
-		mainPanel.setContent(verticalLayoutOnPanel);
+		mainPanel.addComponent(verticalLayoutOnPanel);
 		
 		return mainPanel;
 	}

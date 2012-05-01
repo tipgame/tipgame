@@ -34,6 +34,7 @@ public class RegistrationThread extends Thread {
 			
 			if (isUserAllowedToRegistrate(user))
 			{
+				doesUserAlreadyExists(user);
 				hibernateSession.save(user);				
 				hibernateSession.getTransaction().commit();
 				
@@ -45,6 +46,21 @@ public class RegistrationThread extends Thread {
 		{
 			hibernateSession.getTransaction().rollback();
 			throw new RuntimeException(e.getMessage());
+		}
+	}
+	
+	private void doesUserAlreadyExists(User user ) throws Exception
+	{
+		Session hibernateSession = databaseHelper.getHibernateSession();
+		hibernateSession.beginTransaction();
+		String sql = "select * from User where username = '"+user.getUsername()+"' and christianname = '"+user.getChristianname()+"'"+
+				" and name = '"+user.getName()+"' and email = '"+user.getEmail()+"'";
+		List<String> l = hibernateSession.createSQLQuery(sql).list();
+		
+		if (l.size() > 0)
+		{
+			l = null;
+			throw new CustomLoginException("Ein Benutzer mit diesem Namen ist bereits registriert.");
 		}
 	}
 	
