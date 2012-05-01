@@ -121,12 +121,11 @@ public class RegistrationView extends CustomComponent {
 		try
 		{
 			registrationProducer.CreateRegistration(CreateUser());
-			((Window) getWindow().getParent()).removeWindow(getWindow());
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			labelError.setValue("Es gab einen Fehler bei der Registration.");
+			((Window) getWindow().getParent()).removeWindow(getWindow());
 		}
     }
 	

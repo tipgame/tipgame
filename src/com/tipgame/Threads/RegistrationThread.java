@@ -57,6 +57,7 @@ public class RegistrationThread extends Thread {
 		
 		if (!l.contains(user.getEmail()))
 		{
+			l = null;
 			throw new CustomLoginException("Sie besitzen keine Berechtigung sich anzumelden.");
 		}
 		return true;
@@ -66,24 +67,30 @@ public class RegistrationThread extends Thread {
 	{
 		List<UserMatchConnection> userMatchConnections = new ArrayList<UserMatchConnection>();
 		Session hibernateSession = databaseHelper.getHibernateSession();
-		hibernateSession.beginTransaction();
-		// fetch ids
-		Iterator iter = hibernateSession.createQuery("from GameMatch").iterate();
-		while ( iter.hasNext() ) 
-		{
-		    GameMatch match = (GameMatch) iter.next();
-		    UserMatchConnection userMatchConnection = new UserMatchConnection();
-		    userMatchConnection.setGameMatchId(match.getGameMatchId());
-		    userMatchConnection.setUserId(user.getUserID());
-		    userMatchConnection.setResultTippAwayTeam("");
-		    userMatchConnection.setResultTippHomeTeam("");
-		    userMatchConnection.setAlreadyProcessed(false);
-		    userMatchConnections.add(userMatchConnection);
+		Iterator iter = null;
+		try {
+			hibernateSession.beginTransaction();
+			// fetch ids
+			iter = hibernateSession.createQuery("from GameMatch").iterate();
+			while ( iter.hasNext() ) 
+			{
+			    GameMatch match = (GameMatch) iter.next();
+			    UserMatchConnection userMatchConnection = new UserMatchConnection();
+			    userMatchConnection.setGameMatchId(match.getGameMatchId());
+			    userMatchConnection.setUserId(user.getUserID());
+			    userMatchConnection.setResultTippAwayTeam("");
+			    userMatchConnection.setResultTippHomeTeam("");
+			    userMatchConnection.setAlreadyProcessed(false);
+			    userMatchConnections.add(userMatchConnection);
+			}
+			
+			hibernateSession.getTransaction().commit();
+			
+			SaveUserMatchConnection(userMatchConnections);
+		} catch (Exception e) {
+			iter = null;
+			hibernateSession.getTransaction().rollback();
 		}
-		
-		hibernateSession.getTransaction().commit();
-		
-		SaveUserMatchConnection(userMatchConnections);
 	}
 	
 	private void CreateNewStatisticForUser(User user)

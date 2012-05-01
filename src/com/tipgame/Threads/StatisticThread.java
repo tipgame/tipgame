@@ -107,7 +107,7 @@ public class StatisticThread extends Thread{
 	private Integer computeRank(Integer points)
 	{
 		Integer rank = getNumberOfUsers();
-		
+		points = points + getPointsFromUserStatistic();
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 
@@ -116,6 +116,7 @@ public class StatisticThread extends Thread{
 		while(iter.hasNext())
 		{
 			Statistic statistic = iter.next();
+			
 			if(statistic.getUserId() != user.getUserID()) {
 				if ((statistic.getPoints() < points) && (rank > 1))
 					rank--;

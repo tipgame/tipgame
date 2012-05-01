@@ -1,8 +1,10 @@
 package com.tipgame.ui.Statistics;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.hibernate.Session;
 
@@ -86,7 +88,7 @@ public class OverallStatistic extends CustomComponent {
         chartConfig.getTitle().setText("Statistik");
         
         chartConfig.setXAxes(setXAxis());
-
+        chartConfig.setYAxes(setYAxis());
         Tooltip tooltip = new Tooltip();
         tooltip.setFormatterJsFunc("function() {"
                 + " return '' + this.series.name +': '+ this.y +''; " + "}");
@@ -122,21 +124,21 @@ public class OverallStatistic extends CustomComponent {
 	private LinkedHashSet<XAxis> setXAxis()
 	{
 		CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setCategories(Arrays.asList("1", "5", "10", "15", "20", "25", "30"));
+        
         xAxis.setTitle(new AxisTitle("Spieler"));
+        xAxis.setCategories(Arrays.asList(""));
         LinkedHashSet<XAxis> xAxesSet = new LinkedHashSet<InvientChartsConfig.XAxis>();
         xAxesSet.add(xAxis);
         
         return xAxesSet;
 	}
 
-	private LinkedHashSet<NumberYAxis> setYAxis()
+	private LinkedHashSet<YAxis> setYAxis()
 	{
+		LinkedHashSet<YAxis> yAxesSet = new LinkedHashSet<InvientChartsConfig.YAxis>();
 		NumberYAxis yAxis = new NumberYAxis();
-		yAxis.setMin(0.0);
-		yAxis.setMax(200.0);
 		yAxis.setTitle(new AxisTitle("Punkte"));
-        LinkedHashSet<NumberYAxis> yAxesSet = new LinkedHashSet<NumberYAxis>();
+		
         yAxesSet.add(yAxis);
         
         return yAxesSet;
