@@ -104,7 +104,7 @@ public class HomeView extends CustomComponent {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		_DatabaseHelper = new DatabaseHelper();
+		_DatabaseHelper = DatabaseHelper.getInstance();
 		setSalutation();
 		fillTopTenTable();
 	}

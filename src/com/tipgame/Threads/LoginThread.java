@@ -113,7 +113,7 @@ public class LoginThread extends Thread {
 	private List<UserMatchConnection> getMatchesForUserId()
 	{
 		List<UserMatchConnection> matches = new ArrayList<UserMatchConnection>();
-		DatabaseHelper databaseHelper = new DatabaseHelper();
+		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
 		// fetch ids
@@ -138,7 +138,7 @@ public class LoginThread extends Thread {
 		User user = new User();
 		try
 		{
-			DatabaseHelper databaseHelper = new DatabaseHelper();
+			DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 			Session hibernateSession = databaseHelper.getHibernateSession();
 			
 			hibernateSession.beginTransaction();

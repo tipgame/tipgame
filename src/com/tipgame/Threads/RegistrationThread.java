@@ -21,7 +21,7 @@ public class RegistrationThread extends Thread {
 	
 	public RegistrationThread(User user)
 	{
-		this.databaseHelper = new DatabaseHelper();
+		this.databaseHelper = DatabaseHelper.getInstance();
 		this.user = user;
 	}
 	@Override

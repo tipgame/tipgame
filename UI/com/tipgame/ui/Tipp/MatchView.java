@@ -96,7 +96,7 @@ public class MatchView extends CustomComponent {
 	public MatchView(UserMatchConnection userMatchConnection, User user) {
 		this.user = user;
 		_UserMatchConnection = userMatchConnection;
-		_DatabaseHelper = new DatabaseHelper();
+		_DatabaseHelper = DatabaseHelper.getInstance();
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
@@ -124,7 +124,7 @@ public class MatchView extends CustomComponent {
 	
 	private GameMatch getGameMatchFromId(UserMatchConnection match)
 	{
-		_DatabaseHelper = new DatabaseHelper();
+		_DatabaseHelper = DatabaseHelper.getInstance();
 		GameMatch gameMatch = new GameMatch();
 		
 		Session hibernateSession = _DatabaseHelper.getHibernateSession();

@@ -1,6 +1,5 @@
 package com.tipgame.ui;
 
-import com.tipgame.CustomExceptions.CustomLoginException;
 import com.tipgame.listener.CustomLoginListener;
 import com.tipgame.ui.Registration.RegistrationView;
 import com.tipgame.ui.Registration.RegistrationWindow;
@@ -190,10 +189,10 @@ public class MainView extends CustomComponent {
 		// embedded_2
 		emLogoImage = new Embedded();
 		emLogoImage.setImmediate(false);
-		emLogoImage.setWidth("315px");
-		emLogoImage.setHeight("140px");
+		emLogoImage.setWidth("380px");
+		emLogoImage.setHeight("200px");
 		emLogoImage.setSource(new ThemeResource(
-				"resources/icons/ifba.png"));
+				"resources/icons/ifba.jpg"));
 		emLogoImage.setType(1);
 		emLogoImage.setMimeType("image/png");
 		tabLoginVerticalLayout.addComponent(emLogoImage);

@@ -4,7 +4,7 @@
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/UI"/>
-        <property name="context-root" value="tipgame"/>
         <property name="java-output-path" value="/tipgame/build/classes"/>
+        <property name="context-root" value="tipgame"/>
     </wb-module>
 </project-modules>

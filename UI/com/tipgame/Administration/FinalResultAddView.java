@@ -53,7 +53,7 @@ public class FinalResultAddView extends CustomComponent {
 	 */
 	public FinalResultAddView(GameMatch match) {
 		this.match = match;
-		this.databaseHelper = new DatabaseHelper();
+		this.databaseHelper = DatabaseHelper.getInstance();
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 

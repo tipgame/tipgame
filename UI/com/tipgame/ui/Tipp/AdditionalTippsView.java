@@ -131,7 +131,7 @@ public class AdditionalTippsView extends CustomComponent {
 	 */
 	public AdditionalTippsView(User user) {
 		this.user = user;
-		databaseHelper = new DatabaseHelper();
+		databaseHelper = DatabaseHelper.getInstance();
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 

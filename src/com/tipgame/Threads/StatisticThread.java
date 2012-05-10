@@ -26,7 +26,7 @@ public class StatisticThread extends Thread{
 	
 	public StatisticThread(User user)
 	{
-		databaseHelper = new DatabaseHelper();
+		databaseHelper = DatabaseHelper.getInstance();
 		gameMatchs = new HashMap<Integer,GameMatch>();
 		processedUserMatchConnections = new ArrayList<UserMatchConnection>(); 
 		this.user = user;

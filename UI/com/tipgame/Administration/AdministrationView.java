@@ -65,7 +65,7 @@ public class AdministrationView extends CustomComponent {
 
 	private void setMatchesOnView()
 	{	
-		DatabaseHelper databaseHelper = new DatabaseHelper();
+		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 		

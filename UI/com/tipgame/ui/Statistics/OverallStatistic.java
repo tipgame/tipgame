@@ -102,7 +102,7 @@ public class OverallStatistic extends CustomComponent {
 	
 	private void setSeriesData(InvientCharts chart)
 	{
-		DatabaseHelper databaseHelper = new DatabaseHelper();
+		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 		
@@ -155,7 +155,7 @@ public class OverallStatistic extends CustomComponent {
 	private String getNameToUserId(int userId)
 	{
 		String name = "";
-		DatabaseHelper databaseHelper = new DatabaseHelper();
+		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 		
@@ -167,8 +167,6 @@ public class OverallStatistic extends CustomComponent {
 			User user = iter.next();
 			name = user.getChristianname()+" "+user.getName();
 		}
-		
-		session.getTransaction().commit();
 		
 		return name;
 	}

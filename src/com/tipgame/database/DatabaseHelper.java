@@ -15,7 +15,17 @@ public class DatabaseHelper {
 
 	private SessionFactory _SessionFactory;
 	private AnnotationConfiguration _Config;
+	private static DatabaseHelper instance = new DatabaseHelper();
 	
+	private DatabaseHelper() {}
+	 
+    /**
+     * Statische Methode, liefert die einzige Instanz dieser
+     * Klasse zurück
+     */
+    public static DatabaseHelper getInstance() {
+        return instance;
+    }
 	
 	public Session getHibernateSession()
 	{
