@@ -5,7 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 
 import com.tipgame.CustomExceptions.CustomLoginException;
 import com.tipgame.data.GameMatch;
@@ -83,16 +85,14 @@ public class RegistrationThread extends Thread {
 	{
 		List<UserMatchConnection> userMatchConnections = new ArrayList<UserMatchConnection>();
 		Session hibernateSession = databaseHelper.getHibernateSession();
-		Iterator iter = null;
 		try {
 			hibernateSession.beginTransaction();
-			// fetch ids
-			iter = hibernateSession.createQuery("from GameMatch").iterate();
-			while ( iter.hasNext() ) 
-			{
-			    GameMatch match = (GameMatch) iter.next();
-			    UserMatchConnection userMatchConnection = new UserMatchConnection();
-			    userMatchConnection.setGameMatchId(match.getGameMatchId());
+			List<GameMatch> list = hibernateSession.createCriteria(GameMatch.class)
+					.addOrder(Order.asc("group")).addOrder(Order.asc("kickOff")).list();
+			
+			for (GameMatch gameMatch : list) {
+				UserMatchConnection userMatchConnection = new UserMatchConnection();
+			    userMatchConnection.setGameMatchId(gameMatch.getGameMatchId());
 			    userMatchConnection.setUserId(user.getUserID());
 			    userMatchConnection.setResultTippAwayTeam("");
 			    userMatchConnection.setResultTippHomeTeam("");
@@ -104,7 +104,6 @@ public class RegistrationThread extends Thread {
 			
 			SaveUserMatchConnection(userMatchConnections);
 		} catch (Exception e) {
-			iter = null;
 			hibernateSession.getTransaction().rollback();
 		}
 	}

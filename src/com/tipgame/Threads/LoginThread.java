@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.vaadin.artur.icepush.ICEPush;
 
 import com.tipgame.Administration.AdministrationView;
 import com.tipgame.CustomExceptions.CustomLoginException;
@@ -24,6 +25,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.LoginForm.LoginEvent;
+import com.vaadin.ui.Table;
 
 public class LoginThread extends Thread {
 	
@@ -84,13 +86,14 @@ public class LoginThread extends Thread {
 	{		
     	try
     	{
-			HomeView homeView = new HomeView(_user);
-			TippView TabTipp = new TippView(getMatchesForUserId(), _user);
+			HomeView homeView = new HomeView(_user);		
+			TippView tabTipp = new TippView(getMatchesForUserId(), _user);
+			
 			StatisticView reporting = new StatisticView();
 			GuideView guideView = new GuideView();
 	
 			_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
-			_mainTabSheet.addTab(TabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
+			_mainTabSheet.addTab(tabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
 			_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
 			if (_user.getRights() == 65335)
 			{

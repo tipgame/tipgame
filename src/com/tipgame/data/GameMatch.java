@@ -17,6 +17,7 @@ public class GameMatch {
 	private String awayTeamName;
 	private String resultFinalHomeTeam;
 	private String resultFinalAwayTeam;
+	private String group;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -81,5 +82,13 @@ public class GameMatch {
 	}
 	public void setResultFinalAwayTeam(String resultFinalAwayTeam) {
 		this.resultFinalAwayTeam = resultFinalAwayTeam;
+	}
+	
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
+	public String getGroup() {
+		return group;
+	}
+	public void setGroup(String group) {
+		this.group = group;
 	}
 }

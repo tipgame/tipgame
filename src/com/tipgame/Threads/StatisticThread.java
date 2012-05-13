@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.vaadin.artur.icepush.ICEPush;
 
 import com.tipgame.data.FinalResults;
 import com.tipgame.data.GameMatch;
@@ -16,6 +17,8 @@ import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.processor.PointProcessor;
+import com.tipgame.utils.TipgameUtils;
+import com.vaadin.ui.Table;
 
 public class StatisticThread extends Thread{
 	
@@ -48,7 +51,7 @@ public class StatisticThread extends Thread{
 			{
 				Iterator<UserMatchConnection> iter = session.createQuery(
 					    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
-						" resultTippAwayTeam != '' and alreadyProcessed = 0 and gameMatchId in ("+matchIDs+")")
+						" resultTippAwayTeam != '' and gameMatchId in ("+matchIDs+")")
 					    .setLong(0, userId)
 					    .iterate();
 				while(iter.hasNext())
@@ -62,13 +65,14 @@ public class StatisticThread extends Thread{
 			
 			if(somethingToDo)
 			{
-				Integer rank = computeRank(points);
 				points += CalculateFullPointsAfterLastMatch();
-				saveAll(points, rank);
+				savePoints(points);
+				computeRank();
 				updateUserMatchConnections();
 			}
 			
 			session.getTransaction().commit();
+			
 		} catch (Exception e) {
 			session.getTransaction().rollback();
 			e.printStackTrace();
@@ -86,7 +90,7 @@ public class StatisticThread extends Thread{
 		}
 	}
 	
-	private void saveAll(Integer points, Integer rank)
+	private void savePoints(Integer points)
 	{
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
@@ -101,55 +105,30 @@ public class StatisticThread extends Thread{
 		{
 			Statistic statistic = iter.next();
 			statistic.setPoints(pointsSum);
-			statistic.setRank(rank);
-			
+			//statistic.setRank(rank);			
 			session.saveOrUpdate(statistic);			
 		}
 	}
 	
-	private Integer computeRank(Integer points)
+	private void computeRank()
 	{
-		Integer rank = getNumberOfUsers();
-		points = points + getPointsFromUserStatistic();
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 
-		String sqlQuery = "FROM Statistic order by points asc";
+		String sqlQuery = "FROM Statistic order by points desc";
 		Iterator<Statistic> iter = session.createQuery(sqlQuery).iterate();
+		int rank = 1;
+		int points = 0;
 		while(iter.hasNext())
 		{
 			Statistic statistic = iter.next();
+			if(statistic.getPoints() < points)
+				rank++;						
+			statistic.setRank(rank);			
+			session.saveOrUpdate(statistic);
 			
-			if(statistic.getUserId() != user.getUserID()) {
-				if ((statistic.getPoints() < points) && (rank > 1))
-					rank--;
-				else
-					break;	
-			}
+			points = statistic.getPoints();
 		}
-		return rank;
-	}
-	
-	private Integer getNumberOfUsers()
-	{
-		Integer numberOfUsers = 0;
-		Session session = databaseHelper.getHibernateSession();
-		try {
-			session.beginTransaction();
-	
-			String sqlQuery = "FROM User";
-			Iterator<Statistic> iter = session.createQuery(sqlQuery).iterate();
-			while(iter.hasNext())
-			{
-				iter.next();
-				numberOfUsers++;
-				
-			} 
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.getTransaction().rollback();
-		}
-		return numberOfUsers;
 	}
 	
 	private Integer getPointsFromUserStatistic()
@@ -259,5 +238,4 @@ public class StatisticThread extends Thread{
 	
 		return points;		
 	}
-
 }

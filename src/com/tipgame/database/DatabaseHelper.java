@@ -7,6 +7,8 @@ import org.hibernate.cfg.AnnotationConfiguration;
 
 import com.tipgame.data.AllowedUser;
 import com.tipgame.data.GameMatch;
+import com.tipgame.data.News;
+import com.tipgame.data.RankingWinner;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
@@ -57,7 +59,9 @@ public class DatabaseHelper {
 		config.addAnnotatedClass(UserMatchConnection.class);
 		config.addAnnotatedClass(GameMatch.class);
 		config.addAnnotatedClass(Statistic.class);
+		config.addAnnotatedClass(RankingWinner.class);
 		config.addAnnotatedClass(AllowedUser.class);
+		config.addAnnotatedClass(News.class);
 		config.configure();
 		
 		_Config = config;

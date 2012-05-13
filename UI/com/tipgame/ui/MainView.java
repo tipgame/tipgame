@@ -1,5 +1,7 @@
 package com.tipgame.ui;
 
+import org.vaadin.artur.icepush.ICEPush;
+
 import com.tipgame.listener.CustomLoginListener;
 import com.tipgame.ui.Registration.RegistrationView;
 import com.tipgame.ui.Registration.RegistrationWindow;
