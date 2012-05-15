@@ -193,6 +193,7 @@ public class HomeView extends CustomComponent {
 		textArea.setImmediate(false);
 		textArea.setWidth("100.0%");
 		textArea.setHeight("-1px");
+		textArea.setEnabled(false);
 		homeViewGridLayout.addComponent(textArea, 0, 1);
 		
 		tableTopTen = new Table();

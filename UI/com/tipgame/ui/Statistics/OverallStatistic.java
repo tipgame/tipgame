@@ -143,6 +143,7 @@ public class OverallStatistic extends CustomComponent {
         
         return yAxesSet;
 	}
+	
 	private static LinkedHashSet<DecimalPoint> getPoints(Series series,
 			double... values) {
 		LinkedHashSet<DecimalPoint> points = new LinkedHashSet<DecimalPoint>();

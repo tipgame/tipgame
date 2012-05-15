@@ -1,5 +1,6 @@
 package com.tipgame.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class TipgameUtils {
 			Calendar cal = Calendar.getInstance();
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 			Date parsedDate = dateFormat.parse(kickOffTimestamp);
-			
+			//cal.add(Calendar.HOUR, 2);
 			if (parsedDate.getTime() < (cal.getTimeInMillis()))
 			{
 				result = true;

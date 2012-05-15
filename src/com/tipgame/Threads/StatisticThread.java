@@ -51,7 +51,7 @@ public class StatisticThread extends Thread{
 			{
 				Iterator<UserMatchConnection> iter = session.createQuery(
 					    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
-						" resultTippAwayTeam != '' and gameMatchId in ("+matchIDs+")")
+						" resultTippAwayTeam != '' and alreadyProcessed=0 and gameMatchId in ("+matchIDs+")")
 					    .setLong(0, userId)
 					    .iterate();
 				while(iter.hasNext())

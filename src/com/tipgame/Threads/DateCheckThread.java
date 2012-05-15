@@ -21,15 +21,18 @@ public class DateCheckThread extends Thread implements Serializable{
 	@Override
     public void run() {
         try {
-            Thread.sleep(12000);
+        	while(true) {
+	        	if (TipgameUtils.isTimeToDisableTippFields(kickOffTimestamp))
+	           	{
+	           		t1.setEnabled(false);
+	                t2.setEnabled(false);
+	                this.interrupt();
+	           	}
+	            Thread.sleep(120000);
+        	}
         } catch (InterruptedException e) {
         }
 
-       	if (TipgameUtils.isTimeToDisableTippFields(kickOffTimestamp))
-       	{
-       		t1.setEnabled(false);
-            t2.setEnabled(false);
-            this.interrupt();
-       	}
+       	
     }	
 }

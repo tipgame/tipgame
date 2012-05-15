@@ -6,10 +6,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.vaadin.artur.icepush.ICEPush;
-
 import com.tipgame.Administration.AdministrationView;
-import com.tipgame.CustomExceptions.CustomLoginException;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
@@ -25,7 +22,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.LoginForm.LoginEvent;
-import com.vaadin.ui.Table;
 
 public class LoginThread extends Thread {
 	
