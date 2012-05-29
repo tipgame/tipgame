@@ -84,13 +84,13 @@ public class AwayTeamView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("220px");
+		mainLayout.setWidth("200px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(2);
 		
 		// top-level component properties
-		setWidth("220px");
+		setWidth("200px");
 		setHeight("60px");
 		
 		// verticalLayout_1
@@ -105,7 +105,7 @@ public class AwayTeamView extends CustomComponent {
 		// common part: create layout
 		verticalLayout_1 = new VerticalLayout();
 		verticalLayout_1.setImmediate(false);
-		verticalLayout_1.setWidth("84.03%");
+		verticalLayout_1.setWidth("100.0%");
 		verticalLayout_1.setHeight("100.0%");
 		verticalLayout_1.setMargin(false);
 		

@@ -15,6 +15,7 @@ public class UserMatchConnection {
 	private String resultTippHomeTeam;
 	private String resultTippAwayTeam;
 	private Boolean alreadyProcessed;
+	private String round;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -63,5 +64,13 @@ public class UserMatchConnection {
 	}
 	public void setAlreadyProcessed(Boolean alreadyProcessed) {
 		this.alreadyProcessed = alreadyProcessed;
+	}
+	
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
+	public String getRound() {
+		return round;
+	}
+	public void setRound(String round) {
+		this.round = round;
 	}
 }

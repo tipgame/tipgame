@@ -12,9 +12,10 @@ import com.tipgame.data.RankingWinner;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
+import com.tipgame.data.WorldRankListIFBA;
+import com.tipgame.data.WorldRankListOverYears;
 
 public class DatabaseHelper {
-
 	private SessionFactory _SessionFactory;
 	private AnnotationConfiguration _Config;
 	private static DatabaseHelper instance = new DatabaseHelper();
@@ -62,6 +63,8 @@ public class DatabaseHelper {
 		config.addAnnotatedClass(RankingWinner.class);
 		config.addAnnotatedClass(AllowedUser.class);
 		config.addAnnotatedClass(News.class);
+		config.addAnnotatedClass(WorldRankListIFBA.class);
+		config.addAnnotatedClass(WorldRankListOverYears.class);
 		config.configure();
 		
 		_Config = config;

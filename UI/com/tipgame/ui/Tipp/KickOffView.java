@@ -60,12 +60,12 @@ public class KickOffView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new VerticalLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("140px");
+		mainLayout.setWidth("160px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		
 		// top-level component properties
-		setWidth("140px");
+		setWidth("160px");
 		setHeight("60px");
 		
 		// LabelKickOff

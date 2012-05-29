@@ -1,1 +1,9 @@
 @import url(../runo/styles.css);
+
+.helloLabel {
+    font-size: 16px;
+font-weight: bold;
+    padding: 14px 0 5px 5px;
+    color: #5C5D60;
+
+}

@@ -1,7 +1,5 @@
 package com.tipgame.listener;
 
-import org.vaadin.artur.icepush.ICEPush;
-
 import com.vaadin.ui.Label;
 import com.vaadin.ui.LoginForm;
 import com.vaadin.ui.LoginForm.LoginEvent;

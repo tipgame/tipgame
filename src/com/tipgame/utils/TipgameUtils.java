@@ -1,6 +1,5 @@
 package com.tipgame.utils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
+import com.tipgame.data.WorldRankListIFBA;
 import com.tipgame.database.DatabaseHelper;
 import com.vaadin.ui.Table;
 
@@ -58,11 +58,14 @@ public class TipgameUtils {
 	public static Boolean isTimeToDisableTippFields(String kickOffTimestamp)
 	{	Boolean result = false;	
 		try {
+			Date date  = new Date();
+			
 			Calendar cal = Calendar.getInstance();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+			cal.set(cal.get(Calendar.YEAR),
+					cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 			Date parsedDate = dateFormat.parse(kickOffTimestamp);
-			//cal.add(Calendar.HOUR, 2);
-			if (parsedDate.getTime() < (cal.getTimeInMillis()))
+			if (date.compareTo(parsedDate) == 0 || date.compareTo(parsedDate) > 0)
 			{
 				result = true;
 			}
@@ -108,6 +111,31 @@ public class TipgameUtils {
 				String points = String.valueOf(statistic.getPoints());
 				String rank = String.valueOf(statistic.getRank());
 				tableTopTen.addItem(new Object[]{rank, name, points},index);
+				index++;
+			}
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
+	}
+	
+	public static void fillWorldRankingTable(Table worldRankingTable)
+	{
+		int index = 1;
+		Session session = DatabaseHelper.getInstance().getHibernateSession();
+		try {
+			session.beginTransaction();
+			Iterator<WorldRankListIFBA> iter = session.createQuery(
+				    "from WorldRankListIFBA")
+				    .iterate();
+			while(iter.hasNext())
+			{
+				WorldRankListIFBA worldRank = iter.next();
+				String name = worldRank.getName();
+				String points = worldRank.getPoints();
+				String rank = worldRank.getRank();
+				worldRankingTable.addItem(new Object[]{rank, name, points},index);
 				index++;
 			}
 			

@@ -70,7 +70,6 @@ public class RegistrationThread extends Thread {
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
-		Boolean foundUser = false;
 		List<String> l = hibernateSession.createSQLQuery("select email from AllowedUser").list();
 		
 		if (!l.contains(user.getEmail()))
@@ -97,6 +96,7 @@ public class RegistrationThread extends Thread {
 			    userMatchConnection.setResultTippAwayTeam("");
 			    userMatchConnection.setResultTippHomeTeam("");
 			    userMatchConnection.setAlreadyProcessed(false);
+			    userMatchConnection.setRound(gameMatch.getRound());
 			    userMatchConnections.add(userMatchConnection);
 			}
 			

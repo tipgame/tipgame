@@ -18,6 +18,7 @@ public class GameMatch {
 	private String resultFinalHomeTeam;
 	private String resultFinalAwayTeam;
 	private String group;
+	private String round;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -90,5 +91,13 @@ public class GameMatch {
 	}
 	public void setGroup(String group) {
 		this.group = group;
+	}
+	
+	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
+	public String getRound() {
+		return round;
+	}
+	public void setRound(String round) {
+		this.round = round;
 	}
 }

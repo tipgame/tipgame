@@ -10,6 +10,6 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-noserver -war WebContent/VAADIN/widgetsets com.tipgame.widgetset.TipgameWidgetset -startupUrl http://localhost:8080/tipgame -bindAddress 127.0.0.1"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="tipgame"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512M -XX:MaxPermSize=256M"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx132M -XX:MaxPermSize=132M"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="C:\Users\Admin\workspace\tipgame"/>
 </launchConfiguration>

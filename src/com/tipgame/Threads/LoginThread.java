@@ -1,14 +1,9 @@
 package com.tipgame.Threads;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import com.tipgame.Administration.AdministrationView;
 import com.tipgame.data.User;
-import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.listener.TabChangeListener;
 import com.tipgame.ui.Guide.GuideView;
@@ -28,7 +23,6 @@ public class LoginThread extends Thread {
 	private ProgressIndicator _progressIndicator;
 	private LoginEvent _event;
 	private TabSheet _mainTabSheet;
-	private int _userId;
 	private User _user;
 	private Label _errorLabel;
 	
@@ -83,7 +77,7 @@ public class LoginThread extends Thread {
     	try
     	{
 			HomeView homeView = new HomeView(_user);		
-			TippView tabTipp = new TippView(getMatchesForUserId(), _user);
+			TippView tabTipp = new TippView(_user);
 			
 			StatisticView reporting = new StatisticView();
 			GuideView guideView = new GuideView();
@@ -109,29 +103,6 @@ public class LoginThread extends Thread {
     	}
 	}
 	
-	private List<UserMatchConnection> getMatchesForUserId()
-	{
-		List<UserMatchConnection> matches = new ArrayList<UserMatchConnection>();
-		DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
-		Session hibernateSession = databaseHelper.getHibernateSession();
-		hibernateSession.beginTransaction();
-		// fetch ids
-		
-		Iterator iter = hibernateSession.createQuery(
-			    "from UserMatchConnection where userId = ?")
-			    .setLong(0, _userId)
-			    .iterate();
-		
-		while ( iter.hasNext() ) 
-		{
-			matches.add((UserMatchConnection) iter.next());
-		}
-		
-		hibernateSession.getTransaction().commit();
-		
-		return matches;
-	}
-	
 	private boolean isLoginCorrect(LoginEvent event) throws Exception
 	{
 		User user = new User();
@@ -151,7 +122,7 @@ public class LoginThread extends Thread {
 			if(user != null)
 			{
 				_user = user;
-				_userId =  user.getUserID();
+				user.getUserID();
 			}
 			hibernateSession.getTransaction().commit();
 		}

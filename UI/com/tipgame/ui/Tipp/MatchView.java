@@ -15,7 +15,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.themes.Reindeer;
 
 public class MatchView extends CustomComponent {
 
@@ -192,19 +191,16 @@ public class MatchView extends CustomComponent {
 		// common part: create layout
 		gridLayout_2 = new GridLayout();
 		gridLayout_2.setImmediate(false);
-		gridLayout_2.setWidth("-1px");
-		gridLayout_2.setHeight("-1px");
-		gridLayout_2.setMargin(false);
+		gridLayout_2.setMargin(true);
 		gridLayout_2.setColumns(2);
 		
 		pictureSetTippButton = new Button();
 		pictureSetTippButton.setDescription("Tipp abgeben...");
 		pictureSetTippButton.setEnabled(enableButton());
 		pictureSetTippButton.setVisible(false);
-		pictureSetTippButton.setStyleName(Reindeer.BUTTON_LINK);
+		//pictureSetTippButton.setStyleName(Reindeer.BUTTON_LINK);
 		pictureSetTippButton.setIcon(new ThemeResource("resources/icons/ok.png"));
         gridLayout_2.addComponent(pictureSetTippButton, 0, 0);
-		gridLayout_2.setComponentAlignment(pictureSetTippButton, Alignment.MIDDLE_RIGHT);
 		pictureSetTippButton.addListener(new ClickListener() {
             public void buttonClick(ClickEvent event) {
             	submitTipp();            
@@ -215,10 +211,9 @@ public class MatchView extends CustomComponent {
 		pictureRemoveTippButton.setDescription("Tipp zurücksetzen...");
 		pictureRemoveTippButton.setEnabled(enableButton());
 		pictureRemoveTippButton.setVisible(false);
-		pictureRemoveTippButton.setStyleName(Reindeer.BUTTON_LINK);
+		//pictureRemoveTippButton.setStyleName(Reindeer.BUTTON_LINK);
 		pictureRemoveTippButton.setIcon(new ThemeResource("resources/icons/remove.png"));
         gridLayout_2.addComponent(pictureRemoveTippButton, 1, 0);
-		gridLayout_2.setComponentAlignment(pictureRemoveTippButton, Alignment.MIDDLE_RIGHT);
 		pictureRemoveTippButton.addListener(new ClickListener() {
             public void buttonClick(ClickEvent event) {            	
                 resetTipp();

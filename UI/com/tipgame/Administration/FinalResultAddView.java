@@ -84,10 +84,13 @@ public class FinalResultAddView extends CustomComponent {
 		Session session = databaseHelper.getHibernateSession();
 		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, match);
+		String group = match.getGroup();
+		String round = match.getRound();
+		
 		match.setResultFinalHomeTeam(resultView.getResultHomeTeam());
 		match.setResultFinalAwayTeam(resultView.getResultAwayTeam());
 		
-		session.update(match);
+		session.saveOrUpdate(match);
 		
 		session.getTransaction().commit();
 		

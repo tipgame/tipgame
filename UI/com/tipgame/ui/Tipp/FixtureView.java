@@ -69,13 +69,13 @@ public class FixtureView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("-1px");
+		mainLayout.setWidth("400px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(3);
 		
 		// top-level component properties
-		setWidth("-1px");
+		setWidth("400px");
 		setHeight("60px");
 		
 		// LabelVS

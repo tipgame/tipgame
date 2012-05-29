@@ -53,16 +53,17 @@ public class ResultView extends CustomComponent {
 				Refresher refresher = new Refresher();
 				refresher.setRefreshInterval(120000);
 				mainLayout.addComponent(refresher, 3, 0);
-				DateCheckThread dateCheckThread = new DateCheckThread(TextFieldResultHomeTeam, 
-						TextFieldResultAwayTeam, kickOffTimestamp);
-				dateCheckThread.start();
 			}
 			else
 			{
-				setTippButton.setEnabled(false);
-				setTippButton.setEnabled(false);
-				TextFieldResultHomeTeam.setEnabled(false);
-				TextFieldResultAwayTeam.setEnabled(false);
+				if (setTippButton != null)
+					setTippButton.setEnabled(false);
+				if(setTippButton != null)
+					setTippButton.setEnabled(false);
+				if(TextFieldResultHomeTeam != null)
+					TextFieldResultHomeTeam.setEnabled(false);
+				if(TextFieldResultAwayTeam != null)
+					TextFieldResultAwayTeam.setEnabled(false);
 			}
 		}
 		setGameResult(resultHome, resultAway);
