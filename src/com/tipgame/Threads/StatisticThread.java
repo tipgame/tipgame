@@ -41,18 +41,20 @@ public class StatisticThread extends Thread{
 		databaseHelper.attachPojoToSession(session, user);
 		
 		int userId = user.getUserID();
-		
-		Iterator<UserMatchConnection> iter = session.createQuery(
-			    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
-				" resultTippAwayTeam != '' and alreadyProcessed = 0 and gameMatchId in ("+matchIDs+")")
-			    .setLong(0, userId)
-			    .iterate();
-		while(iter.hasNext())
+		if (matchIDs != "")
 		{
-			somethingToDo = true;
-			UserMatchConnection userMatchConnection = iter.next();
-			points = points+computePoints(userMatchConnection);
-			processedUserMatchConnections.add(userMatchConnection);
+			Iterator<UserMatchConnection> iter = session.createQuery(
+				    "from UserMatchConnection where userId = ? and resultTippHomeTeam != '' and "+
+					" resultTippAwayTeam != '' and alreadyProcessed = 0 and gameMatchId in ("+matchIDs+")")
+				    .setLong(0, userId)
+				    .iterate();
+			while(iter.hasNext())
+			{
+				somethingToDo = true;
+				UserMatchConnection userMatchConnection = iter.next();
+				points = points+computePoints(userMatchConnection);
+				processedUserMatchConnections.add(userMatchConnection);
+			}
 		}
 		
 		if(somethingToDo)

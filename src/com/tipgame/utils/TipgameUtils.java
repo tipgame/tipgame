@@ -1,5 +1,10 @@
 package com.tipgame.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 import com.tipgame.data.GameMatch;
@@ -40,5 +45,24 @@ public class TipgameUtils {
 		config.configure();
 		
 		new SchemaExport(config).create(true, true);
+	}
+	
+	public static Boolean isTimeToDisableTippFields(String kickOffTimestamp)
+	{	Boolean result = false;	
+		try {
+			Calendar cal = Calendar.getInstance();
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+			Date parsedDate = dateFormat.parse(kickOffTimestamp);
+			
+			if (parsedDate.getTime() < (cal.getTimeInMillis()))
+			{
+				result = true;
+			}
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return result;
 	}
 }

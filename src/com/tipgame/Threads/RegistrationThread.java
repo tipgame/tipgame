@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.hibernate.Session;
 
 import com.tipgame.CustomExceptions.CustomLoginException;
@@ -26,22 +27,25 @@ public class RegistrationThread extends Thread {
 	@Override
 	public void run()
 	{
-		Session hibernateSession = databaseHelper.getHibernateSession();		
-		hibernateSession.beginTransaction();
+		Session hibernateSession = databaseHelper.getHibernateSession();
 		try
-		{
+		{		
+			hibernateSession.beginTransaction();
+			
 			if (isUserAllowedToRegistrate(user))
-				hibernateSession.save(user);
+			{
+				hibernateSession.save(user);				
+				hibernateSession.getTransaction().commit();
+				
+				CreateMatchUserConnections(user);			
+				CreateNewStatisticForUser(user);
+			}
 		}
 		catch (Exception e)
 		{
+			hibernateSession.getTransaction().rollback();
 			throw new RuntimeException(e.getMessage());
 		}
-		
-		hibernateSession.getTransaction().commit();
-		
-		CreateMatchUserConnections(user);
-		CreateNewStatisticForUser(user);
 	}
 	
 	private Boolean isUserAllowedToRegistrate(User user) throws Exception
@@ -84,32 +88,47 @@ public class RegistrationThread extends Thread {
 	
 	private void CreateNewStatisticForUser(User user)
 	{
-		Integer statisticId = null;
 		Session hibernateSession = databaseHelper.getHibernateSession();
-		hibernateSession.beginTransaction();
-		databaseHelper.attachPojoToSession(hibernateSession, user);
-		
-		Statistic statistic = new Statistic();
-		statistic.setUserId(user.getUserID());
-		statisticId = (Integer) hibernateSession.save(statistic);
-		
-		user.setStatisticId(statisticId);
-		
-		hibernateSession.save(user);
-		
-		hibernateSession.getTransaction().commit();
+		try
+		{
+			Integer statisticId = null;
+			
+			hibernateSession.beginTransaction();
+			databaseHelper.attachPojoToSession(hibernateSession, user);
+			
+			Statistic statistic = new Statistic();
+			statistic.setUserId(user.getUserID());
+			statisticId = (Integer) hibernateSession.save(statistic);
+			
+			user.setStatisticId(statisticId);
+			
+			hibernateSession.save(user);
+			
+			hibernateSession.getTransaction().commit();
+		}
+		catch (Exception e)
+		{
+			hibernateSession.getTransaction().rollback();
+		}
 	}
 	
 	private void SaveUserMatchConnection(List<UserMatchConnection> userMatchConnections)
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();
-		hibernateSession.beginTransaction();
-		
-		for (int i = 0; i < userMatchConnections.size(); i++) {
-			hibernateSession.save(userMatchConnections.get(i));
+		try
+		{
+			hibernateSession.beginTransaction();
+			
+			for (int i = 0; i < userMatchConnections.size(); i++) {
+				hibernateSession.save(userMatchConnections.get(i));
+			}
+			
+			hibernateSession.getTransaction().commit();
 		}
-		
-		hibernateSession.getTransaction().commit();
+		catch (Exception e)
+		{
+			hibernateSession.getTransaction().rollback();
+		}
 	}
 
 }
