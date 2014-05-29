@@ -96,6 +96,8 @@ public class OverallStatistic extends CustomComponent {
         chartConfig.getCredit().setEnabled(false);
 
         InvientCharts invChart = new InvientCharts(chartConfig);
+        invChart.setWidth("100%");
+        invChart.setHeight("100%");
         setSeriesData(invChart);
         return invChart;
 	}

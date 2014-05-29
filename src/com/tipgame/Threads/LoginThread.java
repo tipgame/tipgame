@@ -1,5 +1,7 @@
 package com.tipgame.Threads;
 
+import java.util.Iterator;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import com.tipgame.Administration.AdministrationView;
@@ -61,23 +63,42 @@ public class LoginThread extends Thread {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();	
-			_errorLabel.setValue(e.getMessage());	
+			_errorLabel.setValue(e.getMessage());
+			_progressIndicator.setHeight("0px");
+			_progressIndicator.setCaption("");
 		}
 			
     }
     
     private void computeStatistics()
 	{
-		StatisticThread statisticProcessor = new StatisticThread(_user);
-		statisticProcessor.run();
+    	Session session = DatabaseHelper.getInstance().getHibernateSession();
+		try {
+			session.beginTransaction();
+			Iterator<User> iter = session.createQuery(
+				    "from User")
+				    .iterate();
+			
+			while(iter.hasNext()) {
+				User user = iter.next();
+				StatisticThread statisticProcessor = new StatisticThread(user);
+				statisticProcessor.setDoFullComputation(true);
+				statisticProcessor.run();
+			}
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}
 	}
-    
+
     private void setHiddenTabs() throws Exception
 	{		
     	try
     	{
-			HomeView homeView = new HomeView(_user);		
-			TippView tabTipp = new TippView(_user);
+			HomeView homeView = new HomeView(_user);
+			
+			TippView tabTipp = new TippView(_user, _mainTabSheet.getWindow());
 			
 			StatisticView reporting = new StatisticView();
 			GuideView guideView = new GuideView();
@@ -85,16 +106,12 @@ public class LoginThread extends Thread {
 			_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
 			_mainTabSheet.addTab(tabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
 			_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
-			if (_user.getRights() == 65335)
-			{
-				AdministrationView adminView = new AdministrationView();
-				_mainTabSheet.addTab(adminView, "Administration", new ThemeResource("resources/icons/admin.png"));
-			}
 			_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
 			AbsoluteLayout absLayout = new AbsoluteLayout();
 			absLayout.setCaption("Logout");
 			_mainTabSheet.addTab(absLayout, "Logout", new ThemeResource("resources/icons/logout.png"));
 			_mainTabSheet.addListener(new TabChangeListener());
+
     	}
     	catch (Exception e)
     	{
@@ -124,10 +141,15 @@ public class LoginThread extends Thread {
 				_user = user;
 				user.getUserID();
 			}
+			else
+			{
+				throw new Exception("Der Benutzer konnte nicht gefunden werden. Überprüfen Sie bitte Kennwort und Benutzername.");
+			}
 			hibernateSession.getTransaction().commit();
 		}
 		catch(Exception e) {
-			throw new Exception("Bei der Anmeldung ist ein Fehler aufgetreten. Sind alle Felder ausgefüllt?");
+			e.printStackTrace();
+			throw e;
 		}
 		return (user != null);
 	}

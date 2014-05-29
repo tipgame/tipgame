@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import com.tipgame.data.AllowedUser;
+import com.tipgame.data.FinalResults;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.News;
 import com.tipgame.data.RankingWinner;
@@ -65,6 +66,7 @@ public class DatabaseHelper {
 		config.addAnnotatedClass(News.class);
 		config.addAnnotatedClass(WorldRankListIFBA.class);
 		config.addAnnotatedClass(WorldRankListOverYears.class);
+		config.addAnnotatedClass(FinalResults.class);
 		config.configure();
 		
 		_Config = config;

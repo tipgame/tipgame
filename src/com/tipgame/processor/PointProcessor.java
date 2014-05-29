@@ -37,7 +37,32 @@ public class PointProcessor {
 	
 	private Boolean isTendency()
 	{
-		return (homeTeamTipp > awayTeamTipp) == (homeTeamFinal > awayTeamFinal);
+		Boolean winnerHomeTeamFinal = false;
+		Boolean winnerHomeTeamTipp = false;
+		Boolean equalResultFinal = false;
+		Boolean equalResultTipp = false;
+		
+		if (homeTeamTipp > awayTeamTipp) {
+			winnerHomeTeamTipp = true;
+		} else if (homeTeamTipp == awayTeamTipp) {
+			equalResultTipp = true;
+		} else if (homeTeamTipp < awayTeamTipp){
+			winnerHomeTeamTipp = false;
+		}
+		
+		if (homeTeamFinal > awayTeamFinal) {
+			winnerHomeTeamFinal = true;
+		} else if (homeTeamFinal == awayTeamFinal) {
+			equalResultFinal = true;
+		} else if (homeTeamFinal < awayTeamFinal) { 
+			winnerHomeTeamFinal = false;
+		}
+		
+		if (equalResultFinal || equalResultTipp) {
+			return false;
+		} else {
+			return (winnerHomeTeamFinal == winnerHomeTeamTipp);
+		}
 	}
 	
 	private Boolean isGoalRatio()

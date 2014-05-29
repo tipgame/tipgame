@@ -173,6 +173,7 @@ public class MatchView extends CustomComponent {
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(6);
+		mainLayout.setColumnExpandRatio(0,0);
 		
 		// top-level component properties
 		setWidth("100.0%");
@@ -247,7 +248,7 @@ public class MatchView extends CustomComponent {
 		session.beginTransaction();
 		_DatabaseHelper.attachPojoToSession(session, gameMatch);
 		String kickOff =  gameMatch.getKickOff().replace("Uhr", "").trim();
-		result = !TipgameUtils.isTimeToDisableTippFields(kickOff);
+		result = !TipgameUtils.compareDates(kickOff);
 		session.getTransaction().commit();
 		return result;
 	}

@@ -48,13 +48,7 @@ public class ResultView extends CustomComponent {
 		setCompositionRoot(mainLayout);
 		if (useRefresher)
 		{
-			if (!(TipgameUtils.isTimeToDisableTippFields(kickOffTimestamp)))
-			{
-				Refresher refresher = new Refresher();
-				refresher.setRefreshInterval(120000);
-				mainLayout.addComponent(refresher, 3, 0);
-			}
-			else
+			if ((TipgameUtils.compareDates(kickOffTimestamp)))
 			{
 				if (setTippButton != null)
 					setTippButton.setEnabled(false);

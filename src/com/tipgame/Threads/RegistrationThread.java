@@ -20,11 +20,13 @@ public class RegistrationThread extends Thread {
 	
 	private DatabaseHelper databaseHelper;
 	private User user;
+	private String registrationCode;
 	
-	public RegistrationThread(User user)
+	public RegistrationThread(User user, String registrationCode)
 	{
 		this.databaseHelper = DatabaseHelper.getInstance();
 		this.user = user;
+		this.registrationCode = registrationCode;
 	}
 	@Override
 	public void run()
@@ -34,7 +36,7 @@ public class RegistrationThread extends Thread {
 		{		
 			hibernateSession.beginTransaction();
 			
-			if (isUserAllowedToRegistrate(user))
+			if (isUserAllowedToRegistrate(registrationCode))
 			{
 				doesUserAlreadyExists(user);
 				hibernateSession.save(user);				
@@ -51,7 +53,7 @@ public class RegistrationThread extends Thread {
 		}
 	}
 	
-	private void doesUserAlreadyExists(User user ) throws Exception
+	private void doesUserAlreadyExists(User user) throws Exception
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
@@ -62,20 +64,20 @@ public class RegistrationThread extends Thread {
 		if (l.size() > 0)
 		{
 			l = null;
-			throw new CustomLoginException("Ein Benutzer mit diesem Namen ist bereits registriert.");
+			throw new CustomLoginException("Ein Benutzer mit diesem \n Namen ist bereits registriert.");
 		}
 	}
 	
-	private Boolean isUserAllowedToRegistrate(User user) throws Exception
+	private Boolean isUserAllowedToRegistrate(String registrationCode) throws Exception
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
-		List<String> l = hibernateSession.createSQLQuery("select email from AllowedUser").list();
+		List<String> l = hibernateSession.createSQLQuery("select registrationCode from AllowedUser").list();
 		
-		if (!l.contains(user.getEmail()))
+		if (!l.contains(registrationCode))
 		{
 			l = null;
-			throw new CustomLoginException("Sie besitzen keine Berechtigung sich anzumelden.");
+			throw new CustomLoginException("Sie besitzen keine \n Berechtigung sich anzumelden.");
 		}
 		return true;
 	}

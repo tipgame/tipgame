@@ -11,7 +11,7 @@ public class TipgameApplication extends Application {
 
 	@Override
 	public void init() {
-		BuildMainLayout();
+		BuildMainLayout();		
 	}
 	
 	private void BuildMainLayout()

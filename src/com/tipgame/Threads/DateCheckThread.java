@@ -22,7 +22,7 @@ public class DateCheckThread extends Thread implements Serializable{
     public void run() {
         try {
         	while(true) {
-	        	if (TipgameUtils.isTimeToDisableTippFields(kickOffTimestamp))
+	        	if (TipgameUtils.compareDates(kickOffTimestamp))
 	           	{
 	           		t1.setEnabled(false);
 	                t2.setEnabled(false);

@@ -127,8 +127,7 @@ public class AdministrationView extends CustomComponent {
 		verticalLayoutOnPanel.setHeight("100.0%");
 		verticalLayoutOnPanel.setMargin(false);
 		mainPanel.addComponent(verticalLayoutOnPanel);
-		
+
 		return mainPanel;
 	}
-
 }

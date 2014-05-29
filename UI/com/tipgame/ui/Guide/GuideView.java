@@ -120,12 +120,30 @@ public class GuideView extends CustomComponent {
 		
 		Embedded pointsImage = new Embedded();
 		pointsImage.setImmediate(false);
-		pointsImage.setWidth("60%");
-		pointsImage.setHeight("60%");
+		pointsImage.setWidth("80%");
+		pointsImage.setHeight("80%");
 		pointsImage.setSource(new ThemeResource(
 				"resources/guide/guidePoints.png"));
 		pointsImage.setType(1);
 		pointsImage.setMimeType("image/png");
+		
+		Embedded additionalPointsImage = new Embedded();
+		additionalPointsImage.setImmediate(false);
+		additionalPointsImage.setWidth("80%");
+		additionalPointsImage.setHeight("80%");
+		additionalPointsImage.setSource(new ThemeResource(
+				"resources/guide/guideAdditionalPoints.png"));
+		additionalPointsImage.setType(1);
+		additionalPointsImage.setMimeType("image/png");
+		
+		Embedded exampleImage = new Embedded();
+		exampleImage.setImmediate(false);
+		exampleImage.setWidth("80%");
+		exampleImage.setHeight("80%");
+		exampleImage.setSource(new ThemeResource(
+				"resources/guide/guideExample.png"));
+		exampleImage.setType(1);
+		exampleImage.setMimeType("image/png");
 		
 		panel_1 = new Panel();
 		panel_1.setImmediate(false);
@@ -136,6 +154,8 @@ public class GuideView extends CustomComponent {
 		panel_1.addComponent(toolbarImage);
 		panel_1.addComponent(tippViewImage);
 		panel_1.addComponent(pointsImage);
+		panel_1.addComponent(additionalPointsImage);
+		panel_1.addComponent(exampleImage);
 		
 		mainLayout.addComponent(panel_1);
 		

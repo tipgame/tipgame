@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @Entity
 public class AllowedUser {
 	private int id;
-	private String email;
+	private String registrationCode;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -21,13 +21,10 @@ public class AllowedUser {
 	}
 	
 	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
-	public String getEmail() {
-		return email;
+	public String getRegistrationCode() {
+		return registrationCode;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setRegistrationCode(String registrationCode) {
+		this.registrationCode = registrationCode;
 	}
-	
-	
-
 }

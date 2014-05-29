@@ -26,6 +26,7 @@ public class StatisticThread extends Thread{
 	private DatabaseHelper databaseHelper;
 	private HashMap<Integer, GameMatch> gameMatchs;
 	private ArrayList<UserMatchConnection> processedUserMatchConnections;
+	private Boolean doFullComputation;
 	
 	public StatisticThread(User user)
 	{
@@ -38,15 +39,20 @@ public class StatisticThread extends Thread{
 	@Override
 	public void run()
 	{
+		startCalculation();
+	}
+	
+	public void startCalculation()
+	{
 		Boolean somethingToDo = false;
 		Integer points = 0;
 		String matchIDs = getGameMatchIdForFinishedGames();
 		Session session = databaseHelper.getHibernateSession();
+		int userId = 0;
 		try {
-			session.beginTransaction();
 			databaseHelper.attachPojoToSession(session, user);
 			
-			int userId = user.getUserID();
+			userId = user.getUserID();
 			if (matchIDs != "")
 			{
 				Iterator<UserMatchConnection> iter = session.createQuery(
@@ -65,25 +71,23 @@ public class StatisticThread extends Thread{
 			
 			if(somethingToDo)
 			{
-				points += CalculateFullPointsAfterLastMatch();
 				savePoints(points);
 				computeRank();
 				updateUserMatchConnections();
 			}
 			
-			session.getTransaction().commit();
+			CalculateFullPointsAfterLastMatch();
 			
 		} catch (Exception e) {
-			session.getTransaction().rollback();
 			e.printStackTrace();
+			session.getTransaction().rollback();
+			
 		}
 	}
 	
 	private void updateUserMatchConnections()
 	{
-		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
-		
+		Session session = databaseHelper.getHibernateSession();		
 		for (UserMatchConnection userMatchConnection : processedUserMatchConnections) {
 			userMatchConnection.setAlreadyProcessed(true);
 			session.saveOrUpdate(userMatchConnection);
@@ -93,7 +97,6 @@ public class StatisticThread extends Thread{
 	private void savePoints(Integer points)
 	{
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, user);
 		int userId = user.getUserID();
 		Integer pointsSum = points + getPointsFromUserStatistic();
@@ -113,7 +116,6 @@ public class StatisticThread extends Thread{
 	private void computeRank()
 	{
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
 
 		String sqlQuery = "FROM Statistic order by points desc";
 		Iterator<Statistic> iter = session.createQuery(sqlQuery).iterate();
@@ -135,8 +137,6 @@ public class StatisticThread extends Thread{
 	{
 		Integer pointsFromUserStatistic = 0;
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
-		
 		String sqlQuery = "SELECT points FROM Statistic WHERE id = "+String.valueOf(getStatisticId());
 		Query query = session.createQuery(sqlQuery);
 		List<Integer> list = query.list();
@@ -152,7 +152,6 @@ public class StatisticThread extends Thread{
 		Integer statisticId = null;
 		
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, user);
 		
 		statisticId = user.getStatisticId();
@@ -163,15 +162,14 @@ public class StatisticThread extends Thread{
 	private Integer computePoints(UserMatchConnection userMatchConnection)
 	{
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
 		databaseHelper.attachPojoToSession(session, userMatchConnection);
 		GameMatch match = gameMatchs.get(userMatchConnection.getGameMatchId());
 		databaseHelper.attachPojoToSession(session, match);
 		Integer homeTeamFinal = Integer.valueOf(match.getResultFinalHomeTeam());
 		Integer awayTeamFinal = Integer.valueOf(match.getResultFinalAwayTeam());
 		
-		Integer homeTeamTipp = Integer.valueOf(userMatchConnection.getResultTippHomeTeam());
-		Integer awayTeamTipp = Integer.valueOf(userMatchConnection.getResultTippAwayTeam());
+		Integer homeTeamTipp = Integer.valueOf(userMatchConnection.getResultTippHomeTeam().trim());
+		Integer awayTeamTipp = Integer.valueOf(userMatchConnection.getResultTippAwayTeam().trim());
 		
 		PointProcessor pointProcessor = new PointProcessor(homeTeamFinal, awayTeamFinal,
 				homeTeamTipp, awayTeamTipp);
@@ -183,8 +181,6 @@ public class StatisticThread extends Thread{
 	{
 		String matchIDs = "";
 		Session session = databaseHelper.getHibernateSession();
-		session.beginTransaction();
-		
 		Iterator<GameMatch> iter = session.createQuery(
 			    "from GameMatch where resultFinalHomeTeam != '' and "+
 				" resultFinalAwayTeam != ''")
@@ -206,18 +202,11 @@ public class StatisticThread extends Thread{
 		return matchIDs;
 	}
 	
-	private Integer CalculateFullPointsAfterLastMatch()
+	private void CalculateFullPointsAfterLastMatch()
 	{
-		Integer points = 0;
-		Calendar cal = Calendar.getInstance();
-		Long today = cal.getTimeInMillis();
-		cal.set(2012, 7, 2);
-		Long endOfTournament = cal.getTimeInMillis();
-		
-		if(today > endOfTournament) {
+		Integer points = 0;		
+		if(TipgameUtils.compareDates("02.07.2014")) {
 			Session session = databaseHelper.getHibernateSession();
-			session.beginTransaction();
-			
 			databaseHelper.attachPojoToSession(session, user);
 			String winner = user.getWinnertipp();
 			String tippGermany = user.getGermanytipp();
@@ -233,9 +222,16 @@ public class StatisticThread extends Thread{
 				if (finalResult.getWinner().equalsIgnoreCase(winner)) {
 					points = points + 10;
 				}
-			}		
-		}
-	
-		return points;		
+			}
+			savePoints(points);
+		}	
+	}
+
+	public Boolean getDoFullComputation() {
+		return doFullComputation;
+	}
+
+	public void setDoFullComputation(Boolean doFullComputation) {
+		this.doFullComputation = doFullComputation;
 	}
 }

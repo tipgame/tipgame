@@ -99,13 +99,13 @@ public class HomeTeamView extends CustomComponent {
 		// common part: create layout
 		mainLayout = new GridLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("200px");
+		mainLayout.setWidth("300px");
 		mainLayout.setHeight("60px");
 		mainLayout.setMargin(false);
 		mainLayout.setColumns(2);
 		
 		// top-level component properties
-		setWidth("200px");
+		setWidth("300px");
 		setHeight("60px");
 		
 		// verticalLayout_1
