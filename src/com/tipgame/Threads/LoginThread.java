@@ -131,9 +131,11 @@ public class LoginThread extends Thread {
 			hibernateSession.beginTransaction();
 			String sqlQuery = "FROM User WHERE username = :username AND password = :password";
 			
+			String username = new String(event.getLoginParameter("username").getBytes("ISO-8859-1"), "UTF-8");
+			String password = new String(event.getLoginParameter("password").getBytes("ISO-8859-1"), "UTF-8");
 			Query query = hibernateSession.createQuery(sqlQuery);		
-			query.setString("username", event.getLoginParameter("username"));
-			query.setString("password", TipgameUtils.byteArrayToHexString(TipgameUtils.computeHash(event.getLoginParameter("password"))));
+			query.setString("username", username);
+			query.setString("password", TipgameUtils.byteArrayToHexString(TipgameUtils.computeHash(password)));
 			
 			user = (User)query.uniqueResult();
 			if(user != null)
