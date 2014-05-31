@@ -204,7 +204,7 @@ public class AdditionalTippsView extends CustomComponent {
 	
 	private void enableOrDisableAdditionalTipps()
 	{
-		Boolean setEnabled = TipgameUtils.compareDates("08.06.2014");
+		Boolean setEnabled = TipgameUtils.compareDates("12.06.2014 21:55");
 		
 		CboxTippGermany.setEnabled(!setEnabled);
 		CboxTippWinner.setEnabled(!setEnabled);
@@ -269,6 +269,7 @@ public class AdditionalTippsView extends CustomComponent {
 		CboxTippGermany.addItem("Viertelfinale");
 		CboxTippGermany.addItem("Halbfinale");
 		CboxTippGermany.addItem("Finale");
+		CboxTippGermany.addItem("Weltmeister");
 	}
 	
 	private void setCboxTippWinnerValues()
@@ -425,7 +426,7 @@ public class AdditionalTippsView extends CustomComponent {
 		
 		
 		// BtnTippGermany
-		Boolean setButtonEnabled = TipgameUtils.compareDates("08.06.2014");
+		Boolean setButtonEnabled = TipgameUtils.compareDates("12.06.2014 21:55");
 		BtnTippGermany = new Button("",this,"onButtonClick");
 		BtnTippGermany.setCaption("Tipp abgeben");
 		BtnTippGermany.setImmediate(true);

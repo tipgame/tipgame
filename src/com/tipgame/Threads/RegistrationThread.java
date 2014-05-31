@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 
@@ -15,6 +17,7 @@ import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
+import com.tipgame.utils.TipgameUtils;
 
 public class RegistrationThread extends Thread {
 	
@@ -57,14 +60,18 @@ public class RegistrationThread extends Thread {
 	{
 		Session hibernateSession = databaseHelper.getHibernateSession();
 		hibernateSession.beginTransaction();
-		String sql = "select * from User where username = '"+user.getUsername()+"' and christianname = '"+user.getChristianname()+"'"+
-				" and name = '"+user.getName()+"' and email = '"+user.getEmail()+"'";
-		List<String> l = hibernateSession.createSQLQuery(sql).list();
-		
-		if (l.size() > 0)
-		{
-			l = null;
-			throw new CustomLoginException("Ein Benutzer mit diesem \n Namen ist bereits registriert.");
+		String sql = "FROM User WHERE username = :username";
+		String username = new String(user.getUsername().getBytes("ISO-8859-1"), "UTF-8");
+
+		Query query = hibernateSession.createQuery(sql);		
+		query.setString("username", username);
+		try {
+			user = (User)query.uniqueResult();
+			if(user != null)
+				throw new Exception("Dieser Benutzername existiert bereits.");
+		}
+		catch(Exception e) {
+			throw new Exception("Dieser Benutzername existiert bereits.");
 		}
 	}
 	

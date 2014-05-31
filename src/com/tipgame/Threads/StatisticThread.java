@@ -205,7 +205,7 @@ public class StatisticThread extends Thread{
 	private void CalculateFullPointsAfterLastMatch()
 	{
 		Integer points = 0;		
-		if(TipgameUtils.compareDates("02.07.2014")) {
+		if(TipgameUtils.compareDates("14.07.2014 00:01")) {
 			Session session = databaseHelper.getHibernateSession();
 			databaseHelper.attachPojoToSession(session, user);
 			String winner = user.getWinnertipp();

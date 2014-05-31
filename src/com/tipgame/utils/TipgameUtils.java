@@ -8,9 +8,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Session;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
@@ -59,8 +61,12 @@ public class TipgameUtils {
 	{	
 		Boolean result = false;	
 		try {
-			Date date  = new Date();
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+			Calendar cal = Calendar.getInstance(); // creates calendar
+		    cal.setTime(new Date()); // sets calendar time/date
+		    cal.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
+		    Date date = cal.getTime();
+			
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
 			Date parsedDate = dateFormat.parse(timeToDisable);
 			if (date.compareTo(parsedDate) == 0 || date.compareTo(parsedDate) > 0)
 			{

@@ -104,6 +104,7 @@ public class TippView extends CustomComponent {
 		createMatchView(koTippLayout, "Achtelfinale");
 		createMatchView(koTippLayout, "Viertelfinale");
 		createMatchView(koTippLayout, "Halbfinale");
+		createMatchView(koTippLayout, "Platz 3");
 		createMatchView(koTippLayout, "Finale");
 	}
 	
