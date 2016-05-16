@@ -1,12 +1,8 @@
 package com.tipgame.Threads;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.lang.NullArgumentException;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -17,7 +13,6 @@ import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
-import com.tipgame.utils.TipgameUtils;
 
 public class RegistrationThread extends Thread {
 	

@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import com.tipgame.Administration.AdministrationView;
 import com.tipgame.data.User;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.listener.TabChangeListener;
@@ -15,9 +14,11 @@ import com.tipgame.ui.Tipp.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.AbsoluteLayout;
+import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.ProgressIndicator;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.LoginForm.LoginEvent;
 
 public class LoginThread extends Thread {
@@ -40,6 +41,7 @@ public class LoginThread extends Thread {
     public void run (){
 		try
 		{
+			
 			_errorLabel.setValue("");
 	    	_progressIndicator.setHeight("50px");
 			_progressIndicator.setValue(new Float(0.1));
@@ -82,7 +84,6 @@ public class LoginThread extends Thread {
 			while(iter.hasNext()) {
 				User user = iter.next();
 				StatisticThread statisticProcessor = new StatisticThread(user);
-				statisticProcessor.setDoFullComputation(true);
 				statisticProcessor.run();
 			}
 			session.getTransaction().commit();
@@ -103,10 +104,10 @@ public class LoginThread extends Thread {
 			StatisticView reporting = new StatisticView();
 			GuideView guideView = new GuideView();
 	
-			_mainTabSheet.addTab(homeView, "Übersicht", new ThemeResource("resources/icons/home.jpg"));
-			_mainTabSheet.addTab(tabTipp, "Tipp", new ThemeResource("resources/icons/football.gif"));
-			_mainTabSheet.addTab(reporting, "Auswertung", new ThemeResource("resources/icons/graph.png"));
-			_mainTabSheet.addTab(guideView, "Anleitung", new ThemeResource("resources/icons/help.jpg"));
+			_mainTabSheet.addTab(homeView, "Übersicht");
+			_mainTabSheet.addTab(tabTipp, "Tipp");
+			_mainTabSheet.addTab(reporting, "Auswertung");
+			_mainTabSheet.addTab(guideView, "Anleitung");
 			AbsoluteLayout absLayout = new AbsoluteLayout();
 			absLayout.setCaption("Logout");
 			_mainTabSheet.addTab(absLayout, "Logout", new ThemeResource("resources/icons/logout.png"));

@@ -9,9 +9,9 @@
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         
-        <property name="connection.url">jdbc:mysql://localhost:3306/tipgame </property>
+        <property name="connection.url">jdbc:mysql://mysql103911-nerdarea.jelastic.dogado.eu/tipgame </property>
         <property name="connection.username">root</property>
-        <property name="connection.password">sucker</property>
+        <property name="connection.password">YDSE7RXzz0</property>
         
         <!--<property name="connection.url">jdbc:mysql://mysql-nerdarea.jelastic.dogado.eu/tipgame </property>
         <property name="connection.username">tipgame</property>

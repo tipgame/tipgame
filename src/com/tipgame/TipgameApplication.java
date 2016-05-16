@@ -3,7 +3,6 @@ package com.tipgame;
 import com.tipgame.ui.MainView;
 import com.vaadin.Application;
 import com.vaadin.ui.*;
-import com.vaadin.ui.themes.Reindeer;
 
 public class TipgameApplication extends Application {
 	

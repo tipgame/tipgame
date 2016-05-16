@@ -1,15 +1,12 @@
 package com.tipgame.Threads;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.vaadin.artur.icepush.ICEPush;
-
 import com.tipgame.data.FinalResults;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
@@ -18,7 +15,6 @@ import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.processor.PointProcessor;
 import com.tipgame.utils.TipgameUtils;
-import com.vaadin.ui.Table;
 
 public class StatisticThread extends Thread{
 	
