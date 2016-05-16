@@ -103,13 +103,13 @@ public class EMWinnerStatistic extends CustomComponent {
 		while(iter.hasNext())
 		{
 			RankingWinner winner = iter.next();
+			String xCord = winner.getCountry()+" ("+winner.getYear()+" )";
 			if(index == 0) {
 				PointConfig config = new PointConfig(true);
-				
-				points.add(new DecimalPoint(series, winner.getCountry(), winner.getWins(), config));
+				points.add(new DecimalPoint(series, xCord, winner.getWins(), config));
 			}
 			else
-				points.add(new DecimalPoint(series, winner.getCountry(), winner.getWins()));
+				points.add(new DecimalPoint(series, xCord, winner.getWins()));
 			index++;
 		}
 		

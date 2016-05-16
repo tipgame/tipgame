@@ -1,8 +1,5 @@
 package com.tipgame.ui;
 
-import org.vaadin.artur.icepush.ICEPush;
-
-import com.ibm.icu.util.Calendar;
 import com.tipgame.listener.CustomLoginListener;
 import com.tipgame.ui.Registration.RegistrationView;
 import com.tipgame.ui.Registration.RegistrationWindow;
@@ -272,7 +269,7 @@ public class MainView extends CustomComponent {
 		horizontalLayoutRegistryButton.addComponent(labelRegistry);
 		
 		// buttonRegistration
-		Boolean setButtonEnabled = TipgameUtils.compareDates("12.06.2014 21:55");
+		Boolean setButtonEnabled = TipgameUtils.compareDates("10.06.2016 21:55");
 		buttonRegistration = new Button("",this,"onRegistrationButtonClick");
 		buttonRegistration.setEnabled(!setButtonEnabled);
 		buttonRegistration.setCaption("Registrierung");

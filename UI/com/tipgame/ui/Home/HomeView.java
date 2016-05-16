@@ -1,15 +1,9 @@
 package com.tipgame.ui.Home;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import org.hibernate.Session;
-import org.vaadin.artur.icepush.ICEPush;
-
 import com.tipgame.data.News;
-import com.tipgame.data.Statistic;
 import com.tipgame.data.User;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.utils.TipgameUtils;
@@ -19,7 +13,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.RichTextArea;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.themes.Runo;

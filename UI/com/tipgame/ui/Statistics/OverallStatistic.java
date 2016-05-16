@@ -1,11 +1,8 @@
 package com.tipgame.ui.Statistics;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
-
 import org.hibernate.Session;
 
 import com.tipgame.data.Statistic;

@@ -199,7 +199,6 @@ public class MatchView extends CustomComponent {
 		pictureSetTippButton.setDescription("Tipp abgeben...");
 		pictureSetTippButton.setEnabled(enableButton());
 		pictureSetTippButton.setVisible(false);
-		//pictureSetTippButton.setStyleName(Reindeer.BUTTON_LINK);
 		pictureSetTippButton.setIcon(new ThemeResource("resources/icons/ok.png"));
         gridLayout_2.addComponent(pictureSetTippButton, 0, 0);
 		pictureSetTippButton.addListener(new ClickListener() {
@@ -212,7 +211,6 @@ public class MatchView extends CustomComponent {
 		pictureRemoveTippButton.setDescription("Tipp zurücksetzen...");
 		pictureRemoveTippButton.setEnabled(enableButton());
 		pictureRemoveTippButton.setVisible(false);
-		//pictureRemoveTippButton.setStyleName(Reindeer.BUTTON_LINK);
 		pictureRemoveTippButton.setIcon(new ThemeResource("resources/icons/remove.png"));
         gridLayout_2.addComponent(pictureRemoveTippButton, 1, 0);
 		pictureRemoveTippButton.addListener(new ClickListener() {
@@ -266,8 +264,6 @@ public class MatchView extends CustomComponent {
 			session.saveOrUpdate(_UserMatchConnection);
 			
 			session.getTransaction().commit();
-			StatisticThread statistic = new StatisticThread(user);
-			statistic.start();
 			pictureRemoveTippButton.setVisible(true);
 			pictureSetTippButton.setVisible(false);
 		}

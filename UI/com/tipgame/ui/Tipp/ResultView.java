@@ -107,7 +107,6 @@ public class ResultView extends CustomComponent {
 		TextFieldResultHomeTeam.setImmediate(false);
 		TextFieldResultHomeTeam.setWidth("30px");
 		TextFieldResultHomeTeam.setHeight("-1px");
-		TextFieldResultHomeTeam.setSecret(false);
 		TextFieldResultHomeTeam.setEnabled(enableFinalResultTextField);
 		
 		mainLayout.addComponent(TextFieldResultHomeTeam, 0, 0);
@@ -129,7 +128,6 @@ public class ResultView extends CustomComponent {
 		TextFieldResultAwayTeam.setImmediate(false);
 		TextFieldResultAwayTeam.setWidth("30px");
 		TextFieldResultAwayTeam.setHeight("-1px");
-		TextFieldResultAwayTeam.setSecret(false);
 		TextFieldResultAwayTeam.setEnabled(enableFinalResultTextField);
 		
 		mainLayout.addComponent(TextFieldResultAwayTeam, 2, 0);
