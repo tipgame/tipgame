@@ -1,0 +1,10 @@
+@import url(../runo/styles.css);
+
+.mystyle {
+	text-align:right !important;
+}
+
+.v-caption-myTable {
+    font-size: 16px;
+    margin: 10px;
+}
