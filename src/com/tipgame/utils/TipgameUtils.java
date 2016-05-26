@@ -14,6 +14,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
+import com.tipgame.data.Team;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.data.WorldRankListIFBA;
@@ -62,7 +63,7 @@ public class TipgameUtils {
 		try {
 			Calendar cal = Calendar.getInstance(); // creates calendar
 		    cal.setTime(new Date()); // sets calendar time/date
-		    cal.add(Calendar.HOUR_OF_DAY, 2); // adds one hour
+		    cal.add(Calendar.HOUR_OF_DAY, 0); // adds one hour
 		    Date date = cal.getTime();
 			
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy hh:mm");
@@ -113,6 +114,31 @@ public class TipgameUtils {
 				String points = String.valueOf(statistic.getPoints());
 				String rank = String.valueOf(statistic.getRank());
 				tableTopTen.addItem(new Object[]{rank, name, points},index);
+				index++;
+			}
+			
+			session.getTransaction().commit();
+		} catch (Exception e) {
+			session.getTransaction().rollback();
+		}
+	}
+	
+	public static void fillTeamRankingTable(Table teamRankingTable)
+	{
+		int index = 1;
+		Session session = DatabaseHelper.getInstance().getHibernateSession();
+		try {
+			session.beginTransaction();
+			Iterator<Team> iter = session.createQuery(
+				    "from Team order by rank asc")
+				    .iterate();
+			while(iter.hasNext())
+			{
+				Team team = iter.next();
+				String name = team.getTeamName();
+				String points = String.valueOf(team.getPoints());
+				String rank = String.valueOf(team.getRank());
+				teamRankingTable.addItem(new Object[]{rank, name, points},index);
 				index++;
 			}
 			

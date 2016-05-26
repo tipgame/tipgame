@@ -60,7 +60,7 @@ public class AdministrationView extends CustomComponent {
 		setCompositionRoot(mainLayout);
 
 		// TODO add user code here
-		//setMatchesOnView();		
+		setMatchesOnView();		
 	}
 
 	private void setMatchesOnView()
@@ -103,8 +103,8 @@ public class AdministrationView extends CustomComponent {
 		mainLayout.addComponent(adminTabSheet, "top:0.0px;left:0.0px;");
 		
 		// mainPanel
-		//mainPanel = buildMainPanel();
-		//adminTabSheet.addTab(mainPanel, "Spielergebnisse");
+		mainPanel = buildMainPanel();
+		adminTabSheet.addTab(mainPanel, "Spielergebnisse");
 		
 		NewsAdministrationView newsAdministrationView = new NewsAdministrationView();
 		adminTabSheet.addTab(newsAdministrationView, "News");

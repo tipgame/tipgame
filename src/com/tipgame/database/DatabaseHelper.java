@@ -15,6 +15,7 @@ import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.data.WorldRankListIFBA;
 import com.tipgame.data.WorldRankListOverYears;
+import com.tipgame.data.Team;
 
 public class DatabaseHelper {
 	private SessionFactory _SessionFactory;
@@ -67,6 +68,7 @@ public class DatabaseHelper {
 		config.addAnnotatedClass(WorldRankListIFBA.class);
 		config.addAnnotatedClass(WorldRankListOverYears.class);
 		config.addAnnotatedClass(FinalResults.class);
+		config.addAnnotatedClass(Team.class);
 		config.configure();
 		
 		_Config = config;

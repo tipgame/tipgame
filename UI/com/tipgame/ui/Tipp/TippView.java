@@ -28,8 +28,7 @@ public class TippView extends CustomComponent {
 	private VerticalLayout preliminaryTippLayout;
 	private VerticalLayout koTippLayout;
 	private User user;
-	private Window appWindow;
-
+	private TabSheet tippTab;
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	
@@ -82,61 +81,89 @@ public class TippView extends CustomComponent {
 	public TippView(User user, Window appWindow) {
 		
 		this.user = user;		
-		this.appWindow = appWindow;
-		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		createMatchView(preliminaryTippLayout, "Vorrunde");
-		createMatchView(koTippLayout, "Achtelfinale");
-		createMatchView(koTippLayout, "Viertelfinale");
-		createMatchView(koTippLayout, "Halbfinale");
-		createMatchView(koTippLayout, "Platz 3");
-		createMatchView(koTippLayout, "Finale");
+		createMatchView( "Vorrunde");
+		createMatchView( "Achtelfinale");
+		createMatchView( "Viertelfinale");
+		createMatchView( "Halbfinale");
+		createMatchView( "Platz 3");
+		createMatchView( "Finale");
+		
+		AdditionalTippsView additionalTippsView = new AdditionalTippsView(user, appWindow);
+		additionalTippsView.setImmediate(false);
+		additionalTippsView.setWidth("100.0%");
+		additionalTippsView.setHeight("100.0%");
+		tippTab.addTab(additionalTippsView, "Zusätzliche Tipps");
 	}
 	
-	private void createMatchView(VerticalLayout tippLayout, String round)
+	private void createMatchView(String round)
 	{
 		String group = "";
 		List<UserMatchConnection> data = new ArrayList<UserMatchConnection>();
 		data = getMatchesForUserId(round);
-		int viewOnLayoutIndex = 0;
 		for (int i = 0; i < data.size(); i++) {
 			GameMatch gameMatch = TipgameUtils.getGameMatchFromId(data.get(i));
 			Session session = DatabaseHelper.getInstance().getHibernateSession();
 			session.beginTransaction();
 			DatabaseHelper.getInstance().attachPojoToSession(session, gameMatch);
 			if(round.equalsIgnoreCase("Vorrunde")) {
-				String gameMatchGroup = gameMatch.getGroup(); 
+				String gameMatchGroup = gameMatch.getPrelimGroup(); 
 				if (!group.equalsIgnoreCase(gameMatchGroup))
 				{
-					Label groupLabel = new Label("Gruppe "+gameMatch.getGroup()+" : ");
+					Panel preliminaryMatchViewsPanel = new Panel();
+					preliminaryMatchViewsPanel.setImmediate(false);
+					preliminaryMatchViewsPanel.setWidth("100%");
+					preliminaryMatchViewsPanel.setHeight("100%");
+					preliminaryMatchViewsPanel.setScrollable(true);
+
+					preliminaryTippLayout = new VerticalLayout();
+					preliminaryTippLayout.setImmediate(false);
+					preliminaryTippLayout.setWidth("100%");
+					preliminaryTippLayout.setHeight("100%");
+					preliminaryTippLayout.setMargin(false);
+					
+					preliminaryMatchViewsPanel.addComponent(preliminaryTippLayout);
+					tippTab.addTab(preliminaryMatchViewsPanel, "Gruppe "+gameMatch.getPrelimGroup());
+					Label groupLabel = new Label("Gruppe "+gameMatch.getPrelimGroup()+" : ");
 					groupLabel.setStyleName(Runo.LABEL_H1);
-					tippLayout.addComponent(groupLabel);
-					group = gameMatch.getGroup();
-					viewOnLayoutIndex++;
+					preliminaryTippLayout.addComponent(groupLabel);
+					group = gameMatch.getPrelimGroup();
 				}
 			}
 			else {
-				String gameMatchGroup = gameMatch.getGroup(); 
+				String gameMatchGroup = gameMatch.getPrelimGroup(); 
 				if (!group.equalsIgnoreCase(gameMatchGroup))
 				{
+					Panel koMatchViewsPanel = new Panel();
+					koMatchViewsPanel.setImmediate(false);
+					koMatchViewsPanel.setWidth("100%");
+					koMatchViewsPanel.setHeight("100%");
+					koMatchViewsPanel.setScrollable(true);
+					
+					koTippLayout = new VerticalLayout();
+					koTippLayout.setImmediate(false);
+					koTippLayout.setWidth("100%");
+					koTippLayout.setHeight("100%");
+					koTippLayout.setMargin(false);
+					
+					koMatchViewsPanel.addComponent(koTippLayout);
+					tippTab.addTab(koMatchViewsPanel, round);
+					
 					Label groupLabel = new Label(round+" : ");
 					groupLabel.setStyleName(Runo.LABEL_H1);
-					tippLayout.addComponent(groupLabel);
-					group = gameMatch.getGroup();
-					viewOnLayoutIndex++;
+					koTippLayout.addComponent(groupLabel);
+					group = gameMatch.getPrelimGroup();
 				}				
 			}
 			UserMatchConnection match = data.get(i);
 			MatchView matchView = new MatchView(match, user);
 			if(round.equalsIgnoreCase("Vorrunde")) {
-				tippLayout.addComponent(matchView, viewOnLayoutIndex);
+				preliminaryTippLayout.addComponent(matchView);
 			} else {
-				tippLayout.addComponent(matchView);
+				koTippLayout.addComponent(matchView);
 			}
-			
-			viewOnLayoutIndex++;
 		}		
 	}
 	
@@ -181,48 +208,12 @@ public class TippView extends CustomComponent {
 		setWidth("100.0%");
 		setHeight("-1px");
 
-		TabSheet tippTab = new TabSheet();
+		tippTab = new TabSheet();
 		tippTab.setWidth("100%");
 		tippTab.setHeight("100%");
 		tippTab.setStyleName(Runo.TABSHEET_SMALL);
 		mainLayout.addComponent(tippTab);
-		
-		Panel preliminaryMatchViewsPanel = new Panel();
-		preliminaryMatchViewsPanel.setImmediate(false);
-		preliminaryMatchViewsPanel.setWidth("100%");
-		preliminaryMatchViewsPanel.setHeight("100%");
-		preliminaryMatchViewsPanel.setScrollable(true);
 
-		preliminaryTippLayout = new VerticalLayout();
-		preliminaryTippLayout.setImmediate(false);
-		preliminaryTippLayout.setWidth("100%");
-		preliminaryTippLayout.setHeight("100%");
-		preliminaryTippLayout.setMargin(false);
-		
-		preliminaryMatchViewsPanel.addComponent(preliminaryTippLayout);
-		tippTab.addTab(preliminaryMatchViewsPanel, "Tipps Vorrunde");
-		
-		Panel koMatchViewsPanel = new Panel();
-		koMatchViewsPanel.setImmediate(false);
-		koMatchViewsPanel.setWidth("100%");
-		koMatchViewsPanel.setHeight("100%");
-		koMatchViewsPanel.setScrollable(true);
-		
-		koTippLayout = new VerticalLayout();
-		koTippLayout.setImmediate(false);
-		koTippLayout.setWidth("100%");
-		koTippLayout.setHeight("100%");
-		koTippLayout.setMargin(false);
-		
-		koMatchViewsPanel.addComponent(koTippLayout);
-		tippTab.addTab(koMatchViewsPanel, "Tipps KO-Runde");
-		
-		AdditionalTippsView additionalTippsView = new AdditionalTippsView(user, appWindow);
-		additionalTippsView.setImmediate(false);
-		additionalTippsView.setWidth("100.0%");
-		additionalTippsView.setHeight("100.0%");
-		tippTab.addTab(additionalTippsView, "Zusätzliche Tipps");
-		
 		return mainLayout;
 	}
 }

@@ -4,12 +4,17 @@ import java.util.Iterator;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+
+import com.tipgame.Administration.AdministrationView;
 import com.tipgame.data.User;
 import com.tipgame.database.DatabaseHelper;
 import com.tipgame.listener.TabChangeListener;
 import com.tipgame.ui.Guide.GuideView;
 import com.tipgame.ui.Home.HomeView;
+import com.tipgame.ui.Statistics.OverallStatistic;
 import com.tipgame.ui.Statistics.StatisticView;
+import com.tipgame.ui.Statistics.TeamStatistic;
+import com.tipgame.ui.Statistics.TeamsOverview;
 import com.tipgame.ui.Tipp.TippView;
 import com.tipgame.utils.TipgameUtils;
 import com.vaadin.terminal.ThemeResource;
@@ -83,9 +88,14 @@ public class LoginThread extends Thread {
 			
 			while(iter.hasNext()) {
 				User user = iter.next();
-				StatisticThread statisticProcessor = new StatisticThread(user);
+				StatisticThread statisticProcessor = new StatisticThread();
+				statisticProcessor.setUser(user);
 				statisticProcessor.run();
 			}
+			
+			StatisticThread statistics = new StatisticThread();
+			statistics.CalculateTeamPointsAndRankForAllTeams();
+			
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -103,14 +113,27 @@ public class LoginThread extends Thread {
 			
 			StatisticView reporting = new StatisticView();
 			GuideView guideView = new GuideView();
-	
+			
+			OverallStatistic overallStatistic = new OverallStatistic();
+			TeamStatistic teamStatistic = new TeamStatistic();
+			TeamsOverview teamOverview = new TeamsOverview();
+			
 			_mainTabSheet.addTab(homeView, "Übersicht");
 			_mainTabSheet.addTab(tabTipp, "Tipp");
-			_mainTabSheet.addTab(reporting, "Auswertung");
+			_mainTabSheet.addTab(overallStatistic, "Platzierung Spieler");
+			_mainTabSheet.addTab(teamStatistic, "Platzierung Teams");
+			_mainTabSheet.addTab(teamOverview, "Teamübersicht");
+			_mainTabSheet.addTab(reporting, "Historie");
 			_mainTabSheet.addTab(guideView, "Anleitung");
+			
+			if (_user.getRights() == 65335){
+				AdministrationView adminView = new AdministrationView();
+				_mainTabSheet.addTab(adminView, "Administration");
+			}
+			
 			AbsoluteLayout absLayout = new AbsoluteLayout();
 			absLayout.setCaption("Logout");
-			_mainTabSheet.addTab(absLayout, "Logout", new ThemeResource("resources/icons/logout.png"));
+			_mainTabSheet.addTab(absLayout, "Logout");
 			_mainTabSheet.addListener(new TabChangeListener());
 
     	}

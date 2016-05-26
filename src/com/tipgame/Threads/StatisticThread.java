@@ -5,11 +5,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
+import org.hibernate.criterion.Restrictions;
+
 import com.tipgame.data.FinalResults;
 import com.tipgame.data.GameMatch;
 import com.tipgame.data.Statistic;
+import com.tipgame.data.Team;
 import com.tipgame.data.User;
 import com.tipgame.data.UserMatchConnection;
 import com.tipgame.database.DatabaseHelper;
@@ -24,14 +30,21 @@ public class StatisticThread extends Thread{
 	private ArrayList<UserMatchConnection> processedUserMatchConnections;
 	private Boolean doFullComputation;
 	
-	public StatisticThread(User user)
+	public StatisticThread()
 	{
 		databaseHelper = DatabaseHelper.getInstance();
 		gameMatchs = new HashMap<Integer,GameMatch>();
 		processedUserMatchConnections = new ArrayList<UserMatchConnection>(); 
-		this.user = user;
 	}
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public void run()
 	{
@@ -70,7 +83,7 @@ public class StatisticThread extends Thread{
 				savePoints(points);
 				computeRank();
 				updateUserMatchConnections();
-			}
+			}		
 			
 			CalculateFullPointsAfterLastMatch();
 			
@@ -79,6 +92,68 @@ public class StatisticThread extends Thread{
 			session.getTransaction().rollback();
 			
 		}
+	}
+	
+	public void CalculateTeamPointsAndRankForAllTeams()
+	{
+		Session session = databaseHelper.getHibernateSession();	
+		Iterator<Team> iter = session.createQuery(
+			    "from Team")
+				.iterate();
+		
+		while(iter.hasNext())
+		{	
+			Team team = iter.next();
+
+			String[] userIDs = team.getUserIds().split(";");
+			float sumOfPoints = 0;
+			for (String user : userIDs) {
+				sumOfPoints = sumOfPoints + getAllPointsForUser(Integer.parseInt(user));
+			}
+			
+			if(userIDs.length > 0)
+			{
+				float teamPoints = ((sumOfPoints / userIDs.length) * 5);
+				databaseHelper.attachPojoToSession(session, team);
+				team.setPoints(teamPoints);		
+				session.saveOrUpdate(team);
+			}
+		}
+		computeTeamRank();
+	}
+	
+	private void computeTeamRank(){
+		Session session = databaseHelper.getHibernateSession();
+
+		String sqlQuery = "FROM Team order by points desc";
+		Iterator<Team> iter = session.createQuery(sqlQuery).iterate();
+		int rank = 1;
+		float points = 0;
+		while(iter.hasNext())
+		{
+			Team team = iter.next();
+			if(team.getPoints() < points)
+				rank++;						
+			team.setRank(rank);			
+			session.saveOrUpdate(team);
+			
+			points = team.getPoints();
+		}
+	}
+	private int getAllPointsForUser(int userId) 
+	{
+		Session session = databaseHelper.getHibernateSession();	
+		Iterator<Statistic> iter = session.createQuery(
+			    "from Statistic where userId = ?")
+			    .setLong(0, userId)
+			    .iterate();
+		
+		while(iter.hasNext())
+		{
+			Statistic statistic = iter.next();
+			return statistic.getPoints();
+		}
+		return 0;
 	}
 	
 	private void updateUserMatchConnections()
@@ -103,8 +178,7 @@ public class StatisticThread extends Thread{
 		while(iter.hasNext())
 		{
 			Statistic statistic = iter.next();
-			statistic.setPoints(pointsSum);
-			//statistic.setRank(rank);			
+			statistic.setPoints(pointsSum);		
 			session.saveOrUpdate(statistic);			
 		}
 	}
@@ -201,7 +275,7 @@ public class StatisticThread extends Thread{
 	private void CalculateFullPointsAfterLastMatch()
 	{
 		Integer points = 0;		
-		if(TipgameUtils.compareDates("14.07.2014 00:01")) {
+		if(TipgameUtils.compareDates("10.07.2016 00:01")) {
 			Session session = databaseHelper.getHibernateSession();
 			databaseHelper.attachPojoToSession(session, user);
 			String winner = user.getWinnertipp();

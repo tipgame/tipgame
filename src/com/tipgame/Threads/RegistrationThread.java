@@ -91,7 +91,7 @@ public class RegistrationThread extends Thread {
 		try {
 			hibernateSession.beginTransaction();
 			List<GameMatch> list = hibernateSession.createCriteria(GameMatch.class)
-					.addOrder(Order.asc("group")).addOrder(Order.asc("kickOff")).list();
+					.addOrder(Order.asc("prelimGroup")).addOrder(Order.asc("kickOff")).list();
 			
 			for (GameMatch gameMatch : list) {
 				UserMatchConnection userMatchConnection = new UserMatchConnection();

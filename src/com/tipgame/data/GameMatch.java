@@ -17,7 +17,7 @@ public class GameMatch {
 	private String awayTeamName;
 	private String resultFinalHomeTeam;
 	private String resultFinalAwayTeam;
-	private String group;
+	private String prelimGroup;
 	private String round;
 	
 	@Id
@@ -86,11 +86,11 @@ public class GameMatch {
 	}
 	
 	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")
-	public String getGroup() {
-		return group;
+	public String getPrelimGroup() {
+		return prelimGroup;
 	}
-	public void setGroup(String group) {
-		this.group = group;
+	public void setPrelimGroup(String prelimGroup) {
+		this.prelimGroup = prelimGroup;
 	}
 	
 	@Column(columnDefinition = "VARCHAR(255) NOT NULL DEFAULT ''")

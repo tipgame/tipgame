@@ -40,6 +40,8 @@ public class HomeView extends CustomComponent {
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
 	private Table tableTopTen;
+	private Table teamRankingTable;
+	
 	private User user;
 	private DatabaseHelper _DatabaseHelper;
 
@@ -103,6 +105,7 @@ public class HomeView extends CustomComponent {
 		_DatabaseHelper = DatabaseHelper.getInstance();
 		setSalutation();
 		TipgameUtils.fillTopTenTable(tableTopTen);
+		TipgameUtils.fillTeamRankingTable(teamRankingTable);
 		setNewsText();
 	}
 	
@@ -168,7 +171,7 @@ public class HomeView extends CustomComponent {
 		homeViewGridLayout.setWidth("100.0%");
 		homeViewGridLayout.setHeight("100.0%");
 		homeViewGridLayout.setMargin(true);
-		homeViewGridLayout.setRows(3);
+		homeViewGridLayout.setRows(4);
 		
 		// labelGreetings
 		labelGreetings = new Label();
@@ -178,25 +181,35 @@ public class HomeView extends CustomComponent {
 		labelGreetings.setValue("Label");
 		labelGreetings.setStyleName(Runo.LABEL_H1);
 		homeViewGridLayout.addComponent(labelGreetings, 0, 0);
-		homeViewGridLayout.setComponentAlignment(labelGreetings, new Alignment(
-				48));
+		homeViewGridLayout.setComponentAlignment(labelGreetings, Alignment.TOP_CENTER);
 		
 		// richTextArea_2
-		textArea = new TextArea();
+		textArea = new TextArea("Neuigkeiten");
 		textArea.setImmediate(false);
-		textArea.setWidth("100.0%");
-		textArea.setHeight("-1px");
+		textArea.setWidth("100%");
+		textArea.setHeight("100px");
 		textArea.setEnabled(false);
 		homeViewGridLayout.addComponent(textArea, 0, 1);
 		
-		tableTopTen = new Table();
+		tableTopTen = new Table("Platzierung Spieler");
 		tableTopTen.setImmediate(false);
-		tableTopTen.setWidth("100.0%");
+		tableTopTen.setWidth("100%");
 		tableTopTen.setHeight("250px");
 		tableTopTen.addContainerProperty("Rang", String.class,  null);
 		tableTopTen.addContainerProperty("Name",  String.class,  null);
 		tableTopTen.addContainerProperty("Punkte", String.class, null);
+		tableTopTen.setStyleName("myTable");
 		homeViewGridLayout.addComponent(tableTopTen, 0, 2);
+		
+		teamRankingTable = new Table("Platzierung Teams");
+		teamRankingTable.setImmediate(false);
+		teamRankingTable.setWidth("100%");
+		teamRankingTable.setHeight("250px");
+		teamRankingTable.addContainerProperty("Rang", String.class,  null);
+		teamRankingTable.addContainerProperty("Team",  String.class,  null);
+		teamRankingTable.addContainerProperty("Punkte", String.class, null); 
+		teamRankingTable.setStyleName("myTable");
+		homeViewGridLayout.addComponent(teamRankingTable, 0, 3); 
 		
 		return homeViewGridLayout;
 	}
@@ -207,5 +220,13 @@ public class HomeView extends CustomComponent {
 
 	public void setTableTopTen(Table tableTopTen) {
 		this.tableTopTen = tableTopTen;
+	}
+
+	public Table getRankingTeamTable() {
+		return teamRankingTable;
+	}
+
+	public void setRankingTeamTable(Table rankingTeamTable) {
+		this.teamRankingTable = rankingTeamTable;
 	}
 }

@@ -25,6 +25,7 @@ public class ResultView extends CustomComponent {
 	private Button setTippButton;
 	private Button removeTippButton;
 
+	private Boolean _EnableFinalResultTextField;
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */	
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -42,6 +43,7 @@ public class ResultView extends CustomComponent {
 	 */
 	public ResultView(String resultHome, String resultAway, Boolean enableFinalResultTextField, 
 			String kickOffTimestamp, Boolean useRefresher) {
+		_EnableFinalResultTextField = enableFinalResultTextField;
 		
 		buildMainLayout(enableFinalResultTextField);
 		setCompositionRoot(mainLayout);
@@ -66,6 +68,12 @@ public class ResultView extends CustomComponent {
 	{
 		TextFieldResultHomeTeam.setValue(resultHome);
 		TextFieldResultAwayTeam.setValue(resultAway);
+		
+		if(!_EnableFinalResultTextField) {
+			TextFieldResultHomeTeam.setReadOnly(true);			
+			TextFieldResultAwayTeam.setReadOnly(true);
+			TextFieldResultAwayTeam.addStyleName("mystyle");
+		}
 	}
 	
 	public String getResultHomeTeam()
@@ -107,7 +115,7 @@ public class ResultView extends CustomComponent {
 		TextFieldResultHomeTeam.setImmediate(false);
 		TextFieldResultHomeTeam.setWidth("30px");
 		TextFieldResultHomeTeam.setHeight("-1px");
-		TextFieldResultHomeTeam.setEnabled(enableFinalResultTextField);
+		//TextFieldResultHomeTeam.setEnabled(enableFinalResultTextField);
 		
 		mainLayout.addComponent(TextFieldResultHomeTeam, 0, 0);
 		mainLayout.setComponentAlignment(TextFieldResultHomeTeam,
@@ -127,8 +135,8 @@ public class ResultView extends CustomComponent {
 		TextFieldResultAwayTeam = new TextField();
 		TextFieldResultAwayTeam.setImmediate(false);
 		TextFieldResultAwayTeam.setWidth("30px");
-		TextFieldResultAwayTeam.setHeight("-1px");
-		TextFieldResultAwayTeam.setEnabled(enableFinalResultTextField);
+		TextFieldResultAwayTeam.setHeight("-1px");		
+		//TextFieldResultAwayTeam.setEnabled(enableFinalResultTextField);
 		
 		mainLayout.addComponent(TextFieldResultAwayTeam, 2, 0);
 		mainLayout.setComponentAlignment(TextFieldResultAwayTeam,

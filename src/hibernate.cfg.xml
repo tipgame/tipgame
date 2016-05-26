@@ -9,13 +9,9 @@
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         
-        <property name="connection.url">jdbc:mysql://mysql103911-nerdarea.jelastic.dogado.eu/tipgame </property>
+        <property name="connection.url">jdbc:mysql://mysql103911-nerdarea.jelastic.dogado.eu/tipgame?useUnicode=true&amp;characterEncoding=utf8</property>
         <property name="connection.username">root</property>
         <property name="connection.password">YDSE7RXzz0</property>
-        
-        <!--<property name="connection.url">jdbc:mysql://mysql-nerdarea.jelastic.dogado.eu/tipgame </property>
-        <property name="connection.username">tipgame</property>
-        <property name="connection.password">123</property>-->
 
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">2</property>
@@ -31,12 +27,6 @@
 
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
-
-        <!-- Drop and re-create the database schema on startup -->
-<!--         <property name="hbm2ddl.auto">create</property>
-
-        <mapping resource="org/hibernate/tutorial/domain/Event.hbm.xml"/>
-        <mapping resource="org/hibernate/tutorial/domain/Person.hbm.xml"/> -->
 
     </session-factory>
 

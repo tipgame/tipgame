@@ -107,44 +107,9 @@ public class NewsAdministrationView extends CustomComponent {
 		btnSaveNews.setWidth("-1px");
 		btnSaveNews.setHeight("-1px");
 		verticalLayoutOnPanel.addComponent(btnSaveNews);
-		
-		Button computeCompleteStatistic = new Button("");
-		computeCompleteStatistic.setImmediate(false);
-		computeCompleteStatistic.setWidth("100.0%");
-		computeCompleteStatistic.setHeight("100.0%");
-		computeCompleteStatistic.addListener(new ClickListener() {
-            public void buttonClick(ClickEvent event) {            	
-            	onComputeCompleteStatisticClick();
-            }
-        });
-		verticalLayoutOnPanel.addComponent(computeCompleteStatistic);
-		
+
 		mainLayout.addComponent(mainPanel);
 		
 		return mainLayout;
-	}
-
-	private void onComputeCompleteStatisticClick()
-	{
-		try {
-			DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
-			Session session = databaseHelper.getHibernateSession();
-			session.beginTransaction();
-			Iterator<User> iter = session.createQuery(
-				    "from User").iterate();
-			while (iter.hasNext())
-			{
-				User user = iter.next();
-				StatisticThread statistic = new StatisticThread(user);
-				statistic.setDoFullComputation(true);
-				statistic.startCalculation();
-			}		
-			session.getTransaction().commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		Label lab = new Label();
-		lab.setValue("Berechnung abgeschlossen ...");
-		verticalLayoutOnPanel.addComponent(lab);
 	}
 }

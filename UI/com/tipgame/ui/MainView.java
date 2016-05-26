@@ -269,7 +269,7 @@ public class MainView extends CustomComponent {
 		horizontalLayoutRegistryButton.addComponent(labelRegistry);
 		
 		// buttonRegistration
-		Boolean setButtonEnabled = TipgameUtils.compareDates("10.06.2016 21:55");
+		Boolean setButtonEnabled = TipgameUtils.compareDates("10.06.2016 20:55");
 		buttonRegistration = new Button("",this,"onRegistrationButtonClick");
 		buttonRegistration.setEnabled(!setButtonEnabled);
 		buttonRegistration.setCaption("Registrierung");
